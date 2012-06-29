@@ -1665,3 +1665,31 @@
   [1m[36mSQL (0.435ms)[0m  [1mRESET client_min_messages[0m
   [1m[35mSQL (5.176ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
   [1m[36mSQL (350.340ms)[0m  [1mALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION[0m
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (34.936ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.352ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.347ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (26.135ms)[0m  SELECT current_schema()
+  [1m[36mSQL (120.165ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (44.035ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (14.508ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (4.013ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (0.515ms)[0m  [1mSELECT version()[0m
+  [1m[35mSQL (0.281ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (41.838ms)[0m  [1mDROP TABLE IF EXISTS "comments"[0m
+  [1m[35mSQL (0.371ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.221ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.076ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'
+  [1m[36mSQL (147.629ms)[0m  [1mCREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (57.861ms)[0m  CREATE INDEX "index_comments_issue" ON "comments" ("issue_id")
+  [1m[36mSQL (0.259ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.281ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (13.532ms)[0m  [1mDROP TABLE IF EXISTS "issues"[0m
+  [1m[35mSQL (0.328ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.279ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.163ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (122.740ms)[0m  [1mCREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_time" TIMESTAMP NOT NULL, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.381ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.273ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (7.974ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
