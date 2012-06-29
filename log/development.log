@@ -38,3 +38,38 @@
 [datamapper] Setting up :default repository: 'mahi_dev' on postgres
 [datamapper] Setting up the "development" environment:
 [datamapper] Setting up :default repository: 'mahi_dev' on postgres
+[datamapper] Setting up the "development" environment:
+[datamapper] Setting up :default repository: 'mahi_dev' on postgres
+[datamapper] Setting up the "development" environment:
+[datamapper] Setting up :default repository: 'mahi_dev' on postgres
+  [1m[36mSQL (0.623ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.216ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.189ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.189ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (0.186ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (24.162ms)[0m  SELECT current_schema()
+  [1m[36mSQL (126.358ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (245.902ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (57.674ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.204ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.163ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.311ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (0.289ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.260ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (114.109ms)[0m  [1mCREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.321ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.267ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.293ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (0.267ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.350ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (103.627ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.376ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.273ms)[0m  [1mRESET client_min_messages[0m
+[datamapper] Setting up the "development" environment:
+[datamapper] Setting up :default repository: 'mahi_dev' on postgres
+  [1m[36mSQL (0.492ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.311ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (2.074ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (10.917ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (0.446ms)[0m  [1mSELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1[0m
+  [1m[35mSQL (7.122ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$10$XGGWfsR7OI1NYUsYYpHfV.VA8kf2RBXK1tQpKKx9V9.YZZtaN94vG', 0) RETURNING "id"

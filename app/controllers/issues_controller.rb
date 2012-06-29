@@ -2,7 +2,11 @@ class IssuesController < ApplicationController
   # GET /issues
   # GET /issues.json
   def index
-    @issues = Issue.all
+    if current_user
+      @issues = Issue.all
+    else
+      redirect_to new_user_session_path and return
+    end
 
     respond_to do |format|
       format.html # index.html.erb
