@@ -129,6 +129,45 @@ describe IssuesController do
     end # describe logged in    
     
   end #describe edit
+
+  describe "create" do
+    
+    describe "not logged in" do
+      before :each do
+        @request.env["devise.mapping"] = Devise.mappings[:user]
+        @valid_issue_params = {:title => "abc", :issue_content =>"Issue Content", :created_at => Time.now, :submitted_by => "test user"}
+        post :create, {:issue => @valid_issue_params}
+      end
+      
+      it "should redirect to sign in page" do
+        response.should redirect_to(new_user_session_path)
+      end
+    end #describe not logged in                                                                                                                              
+    
+    describe "logged in" do
+      before :each do
+        @request.env["devise.mapping"] = Devise.mappings[:user]
+        sign_in @u
+        @valid_issue_params = {:title => "abc", :issue_content =>"Issue Content", :created_at => Time.now, :submitted_by => "test user"}
+        post :create, {:issue => @valid_issue_params}
+      end
+      
+      it "should create an issue" do
+        expect {post :create, {:issue => @valid_issue_params}}.to change(Issue, :count).by(1)
+      end
+
+      it "should redirect to the issue" do
+        response.should redirect_to(issue_path(Issue.last))
+      end
+      
+      it "should assign correct data" do
+        assigns(:issue).should == Issue.last
+      end
+      
+    end # describe logged in  
+
+  end # describe create
+  
 end
 
 
