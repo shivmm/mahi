@@ -72,13 +72,16 @@ class IssuesController < ApplicationController
   # PUT /issues/1
     # PUT /issues/1.json
   def update
-    @issue = Issue.get(params[:id])
-    
+    if current_user
+      @issue = Issue.get(params[:id])
+    else
+      redirect_to new_user_session_path and return
+    end
     respond_to do |format|
       if @issue.update(params[:issue])
         format.html { redirect_to @issue, notice: 'Issue was successfully updated.' }
         format.json { head :no_content }
-        else
+      else
         format.html { render action: "edit" }
         format.json { render json: @issue.errors, status: :unprocessable_entity }
       end
@@ -89,11 +92,11 @@ class IssuesController < ApplicationController
   # DELETE /issues/1.json
   def destroy
     @issue = Issue.get(params[:id])
-      @issue.destroy
+    @issue.destroy
     
     respond_to do |format|
       format.html { redirect_to issues_url }
-        format.json { head :no_content }
+      format.json { head :no_content }
     end
   end
 end
