@@ -73,3 +73,26 @@
   [1m[35mSQL (10.917ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
   [1m[36mSQL (0.446ms)[0m  [1mSELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1[0m
   [1m[35mSQL (7.122ms)[0m  INSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$10$XGGWfsR7OI1NYUsYYpHfV.VA8kf2RBXK1tQpKKx9V9.YZZtaN94vG', 0) RETURNING "id"
+[datamapper] Setting up the "development" environment:
+[datamapper] Setting up :default repository: 'mahi_dev' on postgres
+  [1m[36mSQL (0.447ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.302ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.293ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (4.966ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (0.883ms)[0m  [1mSELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1[0m
+  [1m[35mSQL (0.748ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'tes2t@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (9.030ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('tes2t@gmail.com', '$2a$10$YfIAc5sUty2HBPHUqSAGw.qlsBPonK/trsg/Iv08eJjP5Cn64QKgK', 0) RETURNING "id"[0m
+[datamapper] Setting up the "development" environment:
+[datamapper] Setting up :default repository: 'mahi_dev' on postgres
+  [1m[36mSQL (0.402ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.163ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.133ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (79.584ms)[0m  INSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('test34@gmail.com', 'lase issue', '2012-06-29T17:29:57+05:30', 'me') RETURNING "id"
+[datamapper] Setting up the "development" environment:
+[datamapper] Setting up :default repository: 'mahi_dev' on postgres
+[datamapper] Setting up the "development" environment:
+[datamapper] Setting up :default repository: 'mahi_dev' on postgres
+[datamapper] Setting up the "development" environment:
+[datamapper] Setting up :default repository: 'mahi_dev' on postgres
+[datamapper] Setting up the "development" environment:
+[datamapper] Setting up :default repository: 'mahi_dev' on postgres

@@ -9,9 +9,9 @@ class Issue
   property :id,             Serial
   property :title,          String, :required => true
   property :issue_content,  Text, :required => true
-  property :created_at,  DateTime
+  property :created_at,     DateTime
   property :submitted_by,   String, :required => true
 
-# Association defined for comments
-has n, :comment
+  # Association defined for comments
+  has n, :comment
 end

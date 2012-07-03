@@ -2141,3 +2141,1786 @@ Processing by IssuesController#index as HTML
 Completed 200 OK in 8ms (Views: 3.8ms | Models: 0.817ms)
   [1m[35mSQL (0.476ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"
   [1m[36mSQL (0.657ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"[0m
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.253ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.207ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.185ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.437ms)[0m  SELECT current_schema()
+  [1m[36mSQL (26.772ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (8.572ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (6.058ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (1.347ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (1.452ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (0.363ms)[0m  SELECT version()
+  [1m[36mSQL (0.207ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (8.613ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.402ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.280ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.105ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (105.273ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (57.740ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.310ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.348ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (13.631ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.311ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.280ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.224ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (122.617ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.381ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.308ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (12.763ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.339ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.299ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.161ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (113.400ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.342ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.185ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (7.797ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (11.114ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-06-29T16:48:29+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (2.055ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (3.846ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$gTq.CrHVIK50NAllB8TpWeCvWT8yeDFhsC.1lTenekzCgxnJLZKOu', 0) RETURNING "id"[0m
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 40ms
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#index as HTML
+  [1m[35mSQL (1.159ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 52ms (Views: 48.7ms | Models: 524.136ms)
+Processing by IssuesController#index as HTML
+  [1m[36mSQL (0.766ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.766ms)
+  [1m[35mSQL (0.815ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"
+  [1m[36mSQL (0.578ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"[0m
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.133ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.322ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.245ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.210ms)[0m  SELECT current_schema()
+  [1m[36mSQL (11.731ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (24.727ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (7.529ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (1.355ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (3.875ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (0.512ms)[0m  SELECT version()
+  [1m[36mSQL (0.291ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (14.655ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.357ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.267ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.046ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (95.096ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (49.528ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.337ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.301ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (57.963ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.345ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.281ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.376ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (111.290ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.301ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.304ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (21.593ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.362ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.304ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.172ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (88.221ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.374ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.201ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (8.000ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (11.093ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-06-29T16:52:42+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (0.596ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (10.487ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$IrCjVpyiz7LByV7s45IiQ.ImA8jjoBcvOprnJv.azw179TJx4mzAq', 0) RETURNING "id"[0m
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 39ms
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#index as HTML
+  [1m[35mSQL (1.127ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 51ms (Views: 48.1ms | Models: 541.907ms)
+Processing by IssuesController#index as HTML
+  [1m[36mSQL (0.781ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.781ms)
+  [1m[35mSQL (0.772ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"
+  [1m[36mSQL (0.483ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"[0m
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.140ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.212ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.178ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.537ms)[0m  SELECT current_schema()
+  [1m[36mSQL (24.012ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (7.522ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (9.619ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (2.077ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (1.907ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (0.274ms)[0m  SELECT version()
+  [1m[36mSQL (0.160ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (8.550ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.135ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.126ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (1.841ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (94.419ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (57.716ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.236ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.279ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (49.208ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.340ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.300ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.179ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (145.607ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.299ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.332ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (21.462ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.346ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.272ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.159ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (97.158ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.339ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.227ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (7.923ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (11.159ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-06-29T17:26:59+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (1.795ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (11.246ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$jl0juTM9c/o0v.CAZAVsAeaIwj/YBbQu2ufYnxokk.quAkGtRibq.', 0) RETURNING "id"[0m
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 39ms
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#index as HTML
+  [1m[35mSQL (1.214ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 51ms (Views: 47.8ms | Models: 570.505ms)
+Processing by IssuesController#index as HTML
+  [1m[36mSQL (0.792ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.792ms)
+  [1m[35mSQL (0.369ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"
+  [1m[36mSQL (0.606ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"[0m
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (50.497ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.317ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.298ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (115.615ms)[0m  SELECT current_schema()
+  [1m[36mSQL (375.410ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (4.178ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'
+  [1m[36mSQL (54.947ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (303.583ms)[0m  ALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"
+  [1m[36mSQL (3.920ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (15.036ms)[0m  SELECT version()
+  [1m[36mSQL (0.290ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (106.650ms)[0m  DROP TABLE IF EXISTS "users"
+  [1m[36mSQL (0.289ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.295ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.071ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (426.877ms)[0m  CREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.341ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.284ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (32.332ms)[0m  [1mDROP TABLE IF EXISTS "comments"[0m
+  [1m[35mSQL (0.347ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.218ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.190ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'
+  [1m[36mSQL (98.467ms)[0m  [1mCREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (49.302ms)[0m  CREATE INDEX "index_comments_issue" ON "comments" ("issue_id")
+  [1m[36mSQL (0.304ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.326ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (13.680ms)[0m  [1mDROP TABLE IF EXISTS "issues"[0m
+  [1m[35mSQL (0.331ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.281ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.410ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (89.005ms)[0m  [1mCREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.349ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.146ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (33.173ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (11.094ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-07-03T13:02:19+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (11.974ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (4.328ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$UabIkkonu31S8AcDnrrCteySEPx/wtsnXw4Krar3ewzPB7Ss9LJr6', 0) RETURNING "id"[0m
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.581ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.269ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.243ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.954ms)[0m  SELECT current_schema()
+  [1m[36mSQL (11.591ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (4.000ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'
+  [1m[36mSQL (19.104ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (7.689ms)[0m  ALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"
+  [1m[36mSQL (4.241ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (0.501ms)[0m  SELECT version()
+  [1m[36mSQL (0.244ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (15.731ms)[0m  DROP TABLE IF EXISTS "users"
+  [1m[36mSQL (0.331ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.234ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.106ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (121.381ms)[0m  CREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.380ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.288ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (13.872ms)[0m  [1mDROP TABLE IF EXISTS "comments"[0m
+  [1m[35mSQL (0.345ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.281ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (10.507ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'
+  [1m[36mSQL (147.920ms)[0m  [1mCREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (49.491ms)[0m  CREATE INDEX "index_comments_issue" ON "comments" ("issue_id")
+  [1m[36mSQL (0.296ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.469ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (13.536ms)[0m  [1mDROP TABLE IF EXISTS "issues"[0m
+  [1m[35mSQL (0.344ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.281ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (10.811ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (90.238ms)[0m  [1mCREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.324ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.192ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (9.209ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (19.586ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-07-03T13:21:01+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (1.704ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (14.766ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$70PZUDkLnO5aL88fw3w2T.BrX4KSmwsf22JcqPwB/oTZUX0/HV2om', 0) RETURNING "id"[0m
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.244ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.206ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.182ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.475ms)[0m  SELECT current_schema()
+  [1m[36mSQL (12.836ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (4.034ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (10.617ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (4.046ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (3.799ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (0.490ms)[0m  SELECT version()
+  [1m[36mSQL (0.153ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (12.298ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.355ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.458ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.173ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (105.140ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (49.503ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.305ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.279ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (13.816ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.274ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.314ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.181ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (114.449ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.366ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.308ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (13.027ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.522ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.231ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.067ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (104.944ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.595ms)[0m  RESET client_min_messages
+  [1m[36mSQL (3.523ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (9.309ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (11.101ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-07-03T13:27:08+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (1.631ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (6.428ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$qgCCQXzqOXLWBpJ7S6LAXOIsbhGUhOAE1wKValnFhHjBBVrctUb0m', 0) RETURNING "id"[0m
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 39ms
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#index as HTML
+  [1m[35mSQL (1.110ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 52ms (Views: 48.5ms | Models: 496.789ms)
+Processing by IssuesController#index as HTML
+  [1m[36mSQL (0.816ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.816ms)
+  [1m[35mSQL (0.798ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"
+  [1m[36mSQL (0.554ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"[0m
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.302ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 14ms (Views: 12.1ms | Models: 1.654ms)
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.148ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.308ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.258ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.883ms)[0m  SELECT current_schema()
+  [1m[36mSQL (14.172ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (10.388ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (15.513ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (3.969ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (3.845ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (0.544ms)[0m  SELECT version()
+  [1m[36mSQL (0.279ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (12.342ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.360ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.281ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.115ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (115.480ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (49.214ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.308ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.281ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (13.787ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.344ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.290ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.212ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (89.147ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.530ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.307ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (12.911ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.283ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.216ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.202ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (96.748ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.427ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.453ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (8.048ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (10.926ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-07-03T13:51:37+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (1.640ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (6.483ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$PtOUHFpfXmfMtoT.RPzlXuTEs73vbADC2TnSjS3t.aLgVGxzvawF.', 0) RETURNING "id"[0m
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (1.114ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+  Rendered issues/show.html.haml within layouts/application (0.9ms)
+Completed 200 OK in 155351ms (Views: 99.5ms | Models: 486.756ms)
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.450ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.283ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.254ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.881ms)[0m  SELECT current_schema()
+  [1m[36mSQL (13.559ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (16.204ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (7.232ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (3.919ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (3.725ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (0.447ms)[0m  SELECT version()
+  [1m[36mSQL (0.252ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (15.637ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.355ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.283ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.111ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (96.628ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (41.108ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.294ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.377ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (13.677ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.336ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.317ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.184ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (105.763ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.355ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.306ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (13.076ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.363ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.450ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.215ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (87.648ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.381ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.164ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (8.009ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (11.147ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-07-03T13:54:21+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (1.807ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (5.563ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$3oFr8rR29Uxm.Wj37v9V9.bhRbjJfterkOsJByMdb4QSAlqK41iAS', 0) RETURNING "id"[0m
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.137ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.119ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.090ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.395ms)[0m  SELECT current_schema()
+  [1m[36mSQL (3.468ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (2.576ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (14.978ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (1.513ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (1.975ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (0.351ms)[0m  SELECT version()
+  [1m[36mSQL (0.114ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (9.922ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.098ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.189ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (1.573ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (109.463ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (49.348ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.305ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.230ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (13.790ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.330ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.287ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.169ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (97.672ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.383ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.302ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (12.917ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.341ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.373ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.161ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (88.040ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.386ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.177ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (7.856ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (11.169ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-07-03T13:54:38+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (1.715ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (6.332ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$K8Vi50oQ2aIk1AHPoq92kuVbw038dyX5X7RZk4QsNm7fuRxQ8Ajfy', 0) RETURNING "id"[0m
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.933ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+  Rendered issues/show.html.haml within layouts/application (0.6ms)
+Completed 200 OK in 85ms (Views: 82.2ms | Models: 451.177ms)
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.147ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.305ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.255ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.839ms)[0m  SELECT current_schema()
+  [1m[36mSQL (11.056ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (19.778ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (7.296ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (3.952ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (4.064ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (0.504ms)[0m  SELECT version()
+  [1m[36mSQL (0.291ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (11.470ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.540ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.282ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.155ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (88.053ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (49.351ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.225ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.209ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (13.940ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.331ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.293ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.146ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (122.407ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.377ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.306ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (12.936ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.329ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.310ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (10.432ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (89.097ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.399ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.395ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (7.774ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (10.759ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-07-03T13:55:23+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (7.156ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (6.858ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$O7kj8pTiJ5j.f7tVn6Yn6.vuuDmJOCzclUhO4301o34cuM/rNYzbC', 0) RETURNING "id"[0m
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 39ms
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#index as HTML
+  [1m[35mSQL (1.117ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 52ms (Views: 48.6ms | Models: 495.134ms)
+Processing by IssuesController#index as HTML
+  [1m[36mSQL (0.762ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.762ms)
+  [1m[35mSQL (0.790ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"
+  [1m[36mSQL (0.510ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"[0m
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.647ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 1.947ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.651ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.651ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.962ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 7ms (Views: 3.5ms | Models: 0.962ms)
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.144ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.298ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.251ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.865ms)[0m  SELECT current_schema()
+  [1m[36mSQL (12.557ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (9.096ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (8.131ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (3.898ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (3.802ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (0.514ms)[0m  SELECT version()
+  [1m[36mSQL (0.286ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (11.899ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.361ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.297ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (10.464ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (148.443ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (132.574ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.236ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.318ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (47.694ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.354ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.280ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (26.933ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (90.106ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.378ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.297ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (12.955ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.326ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.152ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (10.851ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (113.825ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.376ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.313ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (8.044ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (11.094ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-07-03T13:57:34+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (1.577ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (9.880ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$E3m.XvlRNZElzh6s/GjlBer6b78QAc7O0clSWF2dSY4.b6cVv6bU6', 0) RETURNING "id"[0m
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 39ms
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#index as HTML
+  [1m[35mSQL (1.116ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 51ms (Views: 48.4ms | Models: 685.985ms)
+Processing by IssuesController#index as HTML
+  [1m[36mSQL (0.781ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.781ms)
+  [1m[35mSQL (0.789ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"
+  [1m[36mSQL (0.576ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"[0m
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.864ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 9ms (Views: 4.8ms | Models: 2.229ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.440ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.440ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.296ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.296ms)
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.178ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.256ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.226ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.941ms)[0m  SELECT current_schema()
+  [1m[36mSQL (25.648ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (7.998ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (7.326ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (1.356ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (1.871ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (0.244ms)[0m  SELECT version()
+  [1m[36mSQL (0.269ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (68.947ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.355ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.286ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.204ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (97.268ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (49.392ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.296ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.281ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (13.874ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.333ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.281ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.468ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (113.882ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.375ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.300ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (22.772ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.343ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.298ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.169ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (112.223ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.262ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.173ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (7.982ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (11.075ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-07-03T15:16:33+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (1.634ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (7.579ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$bTHxgAvnZko.y0USvec7lOSZlW/NfHYQc3/tKYdQcYnWoRJxHiXZG', 0) RETURNING "id"[0m
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 40ms
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#index as HTML
+  [1m[35mSQL (1.210ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 79ms (Views: 74.4ms | Models: 572.575ms)
+Processing by IssuesController#index as HTML
+  [1m[36mSQL (0.362ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.362ms)
+  [1m[35mSQL (0.801ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"
+  [1m[36mSQL (0.557ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"[0m
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.693ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 2.051ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.678ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.678ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.652ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.652ms)
+Processing by IssuesController#new as HTML
+Completed 200 OK in 11ms (Views: 10.3ms | Models: 0.000ms)
+Processing by IssuesController#new as HTML
+Completed 200 OK in 2ms (Views: 1.4ms | Models: 0.000ms)
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.143ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.306ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.254ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.860ms)[0m  SELECT current_schema()
+  [1m[36mSQL (23.030ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (4.417ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (61.009ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (3.956ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (3.883ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (0.577ms)[0m  SELECT version()
+  [1m[36mSQL (0.285ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (38.785ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.359ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.280ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.150ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (94.044ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (49.381ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.318ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.302ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (13.719ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.425ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.275ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.189ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (97.446ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.409ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.265ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (13.121ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.343ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.294ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.178ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (88.401ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.390ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.187ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (7.803ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (11.080ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-07-03T15:17:11+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (1.597ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (10.579ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$w.AHXR3wnq8ey235nVqcHOxSmR54kN8/ThQfC1090iDffO5RIc/wi', 0) RETURNING "id"[0m
+Processing by IssuesController#new as HTML
+  Rendered issues/new.html.haml within layouts/application (0.6ms)
+Completed 200 OK in 49ms (Views: 48.4ms | Models: 543.040ms)
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.144ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.307ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.253ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.896ms)[0m  SELECT current_schema()
+  [1m[36mSQL (11.503ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (16.481ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (7.752ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (3.920ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (3.805ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (0.535ms)[0m  SELECT version()
+  [1m[36mSQL (0.287ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (11.830ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.372ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.278ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (4.089ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (96.392ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (57.773ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.314ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.296ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (13.695ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.341ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.292ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.216ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (89.292ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.385ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.229ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (13.164ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.342ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.278ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.226ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (88.128ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.377ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.254ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (8.050ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (11.491ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-07-03T15:32:41+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (1.847ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (5.653ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$/enhnxVDMUiHPEgkY.09pugiPJ75pxqU7xPzN6d1Ev7HIspQ37uDC', 0) RETURNING "id"[0m
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 39ms
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#index as HTML
+  [1m[35mSQL (1.123ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 51ms (Views: 47.9ms | Models: 463.610ms)
+Processing by IssuesController#index as HTML
+  [1m[36mSQL (0.785ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.785ms)
+  [1m[35mSQL (0.828ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"
+  [1m[36mSQL (0.578ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"[0m
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.681ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 8ms (Views: 4.7ms | Models: 2.087ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.359ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.5ms | Models: 0.359ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.827ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.827ms)
+Processing by IssuesController#new as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.753ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 0.753ms)
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.143ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (2.458ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.185ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (1.120ms)[0m  SELECT current_schema()
+  [1m[36mSQL (4.509ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (29.988ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (7.565ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (3.931ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (3.824ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (0.510ms)[0m  SELECT version()
+  [1m[36mSQL (0.383ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (11.774ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.356ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.281ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.123ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (106.760ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (49.476ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.309ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.409ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (13.383ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.330ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.281ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.162ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (89.064ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.365ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.282ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (13.060ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.389ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.283ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.149ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (146.432ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.344ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.187ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (7.966ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (11.056ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-07-03T15:39:18+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (1.617ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (6.175ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$z8vznQYuLHiqGfIzS2QFO.Kbmevdbe7KiJlTUDFg60m9RAZQjjILC', 0) RETURNING "id"[0m
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 39ms
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#index as HTML
+  [1m[35mSQL (0.455ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 50ms (Views: 47.7ms | Models: 530.084ms)
+Processing by IssuesController#index as HTML
+  [1m[36mSQL (0.779ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.779ms)
+  [1m[35mSQL (0.812ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"
+  [1m[36mSQL (0.545ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"[0m
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.725ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 2.082ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.296ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.296ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.637ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.637ms)
+Processing by IssuesController#new as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.759ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 0.759ms)
+Processing by IssuesController#new as HTML
+  [1m[35mSQL (0.722ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.722ms)
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.727ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 9ms (Views: 3.5ms | Models: 0.727ms)
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.194ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.057ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.037ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.398ms)[0m  SELECT current_schema()
+  [1m[36mSQL (3.438ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (10.078ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (7.998ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (1.901ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (1.861ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (0.293ms)[0m  SELECT version()
+  [1m[36mSQL (0.171ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (12.087ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.321ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.262ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.080ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (114.976ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (57.791ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.306ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.267ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (13.798ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.269ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.300ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.183ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (97.819ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.381ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.303ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (13.003ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.355ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.321ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.198ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (96.489ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.386ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.171ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (8.063ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (11.076ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-07-03T15:40:38+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (1.807ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (6.409ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$iAU5OymFubGCe25b60lMpu0JAmH0unjTi0MEE1Ky93OU3kDqp5O.S', 0) RETURNING "id"[0m
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 39ms
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#index as HTML
+  [1m[35mSQL (1.192ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 62ms (Views: 56.7ms | Models: 479.039ms)
+Processing by IssuesController#index as HTML
+  [1m[36mSQL (0.768ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.768ms)
+  [1m[35mSQL (0.785ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"
+  [1m[36mSQL (0.544ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"[0m
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.628ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 1.957ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.317ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.317ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.674ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.674ms)
+Processing by IssuesController#new as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.751ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 0.751ms)
+Processing by IssuesController#new as HTML
+  [1m[35mSQL (0.333ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.333ms)
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.727ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.727ms)
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.578ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.287ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.251ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.951ms)[0m  SELECT current_schema()
+  [1m[36mSQL (5.704ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (4.031ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (12.246ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (4.044ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (3.810ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (0.470ms)[0m  SELECT version()
+  [1m[36mSQL (0.238ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (12.410ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.355ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.304ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.361ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (114.009ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (74.342ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.259ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.304ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (13.885ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.344ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.303ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.225ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (97.548ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.374ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.300ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (12.989ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.392ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.281ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (10.765ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (122.442ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.366ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.182ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (7.922ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (11.076ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-07-03T15:45:53+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (11.470ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (4.437ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$3WLWR/UClZJh95.VFHajm.vP26/xImHBxv.w7F3D81a19kqK/.Bui', 0) RETURNING "id"[0m
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 39ms
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#index as HTML
+  [1m[35mSQL (1.150ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 51ms (Views: 47.6ms | Models: 542.405ms)
+Processing by IssuesController#index as HTML
+  [1m[36mSQL (0.787ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.787ms)
+  [1m[35mSQL (0.807ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"
+  [1m[36mSQL (0.567ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"[0m
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.654ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 2.028ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.656ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.656ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.298ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.298ms)
+Processing by IssuesController#new as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.339ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.5ms | Models: 0.339ms)
+Processing by IssuesController#new as HTML
+  [1m[35mSQL (0.740ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.740ms)
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.720ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.720ms)
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.139ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.061ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.099ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.327ms)[0m  SELECT current_schema()
+  [1m[36mSQL (31.582ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (24.576ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (7.628ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (3.969ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (3.834ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (0.492ms)[0m  SELECT version()
+  [1m[36mSQL (0.348ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (20.005ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.362ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.306ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (10.059ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (99.745ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (66.116ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.304ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.226ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (13.464ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.335ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.289ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (10.200ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (98.439ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.374ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.282ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (12.890ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.288ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.280ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (10.648ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (164.328ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.284ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.377ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (7.824ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (10.816ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-07-03T16:02:06+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (1.386ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (6.459ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$HG8ebY6njiUKkM9Pr5g16usMOkx1rACkGS7KLW8ivt.4NdNywvydG', 0) RETURNING "id"[0m
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 39ms
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#index as HTML
+  [1m[35mSQL (1.129ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 50ms (Views: 47.3ms | Models: 615.270ms)
+Processing by IssuesController#index as HTML
+  [1m[36mSQL (0.761ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.761ms)
+  [1m[35mSQL (0.825ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"
+  [1m[36mSQL (0.578ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"[0m
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.631ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 2.034ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.662ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.662ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.635ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 3ms (Views: 1.1ms | Models: 0.635ms)
+Processing by IssuesController#new as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.805ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 9ms (Views: 4.7ms | Models: 0.805ms)
+Processing by IssuesController#new as HTML
+  [1m[35mSQL (0.399ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.399ms)
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.324ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.324ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.653ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 20ms (Views: 17.4ms | Models: 0.653ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.397ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.8ms | Models: 0.397ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.688ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 7ms (Views: 3.7ms | Models: 0.688ms)
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.221ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.194ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.188ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.439ms)[0m  SELECT current_schema()
+  [1m[36mSQL (3.484ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (2.553ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (13.024ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (1.608ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (3.879ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (0.440ms)[0m  SELECT version()
+  [1m[36mSQL (0.148ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (14.034ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.360ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.290ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.065ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (96.665ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (49.484ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.197ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.421ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (21.749ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.344ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.299ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.185ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (97.653ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.382ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.290ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (13.082ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.352ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.282ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.334ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (87.988ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.587ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.167ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (7.752ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (10.966ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-07-03T16:02:33+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (1.802ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (6.427ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$rlbB359tgUQi24MOloCXruzq50t4N3iRqvmaq0IeH4GJV55sYfwPe', 0) RETURNING "id"[0m
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 40ms
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#index as HTML
+  [1m[35mSQL (0.454ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 50ms (Views: 47.5ms | Models: 452.789ms)
+Processing by IssuesController#index as HTML
+  [1m[36mSQL (1.045ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 8ms (Views: 3.7ms | Models: 1.045ms)
+  [1m[35mSQL (0.536ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"
+  [1m[36mSQL (0.389ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"[0m
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.418ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 1.343ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.687ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.687ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.681ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 7ms (Views: 3.6ms | Models: 0.681ms)
+Processing by IssuesController#new as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.760ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 0.760ms)
+Processing by IssuesController#new as HTML
+  [1m[35mSQL (0.442ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 8ms (Views: 3.5ms | Models: 0.442ms)
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.748ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.748ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.640ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 4ms (Views: 1.6ms | Models: 0.640ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.308ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.308ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.640ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.640ms)
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.465ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.129ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.249ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.906ms)[0m  SELECT current_schema()
+  [1m[36mSQL (18.745ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (9.517ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (31.649ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (3.953ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (3.855ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (0.451ms)[0m  SELECT version()
+  [1m[36mSQL (0.298ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (26.703ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.360ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.292ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.118ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (113.028ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (57.735ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.354ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.296ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (13.193ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.344ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.297ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.199ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (97.585ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.375ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.304ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (12.940ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.366ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.294ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.134ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (88.343ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.339ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.253ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (7.901ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (11.002ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-07-03T16:04:54+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (0.600ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (10.128ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$iZS3kZmuKIgNYFJ8XxSNoeD/KvNMuakaTrcHtlGbskCn4xg7HntsC', 0) RETURNING "id"[0m
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 39ms
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#index as HTML
+  [1m[35mSQL (1.217ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 62ms (Views: 56.6ms | Models: 528.917ms)
+Processing by IssuesController#index as HTML
+  [1m[36mSQL (0.815ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 8ms (Views: 3.6ms | Models: 0.815ms)
+  [1m[35mSQL (0.786ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"
+  [1m[36mSQL (0.449ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"[0m
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.662ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 1.897ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.666ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.666ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.687ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 7ms (Views: 3.6ms | Models: 0.687ms)
+Processing by IssuesController#new as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 2ms
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.369ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.5ms | Models: 0.369ms)
+Processing by IssuesController#new as HTML
+  [1m[35mSQL (0.797ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 4ms (Views: 1.1ms | Models: 0.797ms)
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.981ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 7ms (Views: 3.5ms | Models: 0.981ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.694ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 9ms (Views: 4.7ms | Models: 0.694ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.685ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 5ms (Views: 1.2ms | Models: 0.685ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.660ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.660ms)
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.142ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.329ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.204ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.864ms)[0m  SELECT current_schema()
+  [1m[36mSQL (11.340ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (8.331ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (9.195ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (4.061ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (3.864ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (0.539ms)[0m  SELECT version()
+  [1m[36mSQL (0.288ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (11.197ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.356ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.291ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.372ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (96.230ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (49.406ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.295ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.281ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (13.727ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.441ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.277ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.129ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (80.870ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.334ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.279ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (13.185ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.308ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.280ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.072ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (88.184ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.361ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.337ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (7.960ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (10.941ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-07-03T16:05:28+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (1.610ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (6.476ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$OQp8FhD6qMOBgUypiQ4MY.AQUEqd2xPBJmfxgqN4konfYHZ2QHRJe', 0) RETURNING "id"[0m
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 39ms
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#index as HTML
+  [1m[35mSQL (1.463ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 52ms (Views: 48.7ms | Models: 438.819ms)
+Processing by IssuesController#index as HTML
+  [1m[36mSQL (0.856ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.856ms)
+  [1m[35mSQL (0.777ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"
+  [1m[36mSQL (0.633ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"[0m
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.695ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 2.105ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.321ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.321ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.662ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.662ms)
+Processing by IssuesController#new as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.750ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 0.750ms)
+Processing by IssuesController#new as HTML
+  [1m[35mSQL (0.765ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 4ms (Views: 1.1ms | Models: 0.765ms)
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.722ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.722ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.640ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 0.640ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.653ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.653ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.658ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.658ms)
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.144ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.399ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.228ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.445ms)[0m  SELECT current_schema()
+  [1m[36mSQL (3.440ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (2.603ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (79.732ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (4.111ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (4.067ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (0.515ms)[0m  SELECT version()
+  [1m[36mSQL (0.279ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (17.784ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.353ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.264ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.321ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (97.122ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (49.382ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.235ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.301ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (13.880ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.320ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.276ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.326ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (89.234ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.381ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.290ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (13.228ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.359ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.282ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.187ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (87.921ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.362ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.177ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (8.083ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (11.032ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-07-03T16:07:55+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (1.636ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (6.064ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$q54fK0PAhEmWthgsr3Cs1OGZBi8DrB0rNDFXUTsIXoKvcZi/02sL.', 0) RETURNING "id"[0m
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 39ms
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#index as HTML
+  [1m[35mSQL (1.301ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 51ms (Views: 48.1ms | Models: 511.064ms)
+Processing by IssuesController#index as HTML
+  [1m[36mSQL (0.759ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.759ms)
+  [1m[35mSQL (0.780ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"
+  [1m[36mSQL (0.563ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"[0m
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.654ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 4ms (Views: 1.6ms | Models: 1.997ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.654ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.654ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.656ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.656ms)
+Processing by IssuesController#new as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.761ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 0.761ms)
+Processing by IssuesController#new as HTML
+  [1m[35mSQL (0.720ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.720ms)
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.764ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.764ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.300ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 3ms (Views: 1.6ms | Models: 0.300ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.298ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.298ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.712ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 7ms (Views: 3.6ms | Models: 0.712ms)
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.187ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.111ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.210ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.445ms)[0m  SELECT current_schema()
+  [1m[36mSQL (3.452ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (11.461ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (7.629ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (1.568ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (1.857ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (0.361ms)[0m  SELECT version()
+  [1m[36mSQL (0.228ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (7.807ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.266ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.394ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.064ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (108.219ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (57.759ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.297ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.321ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (13.686ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.336ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.226ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.222ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (114.397ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.369ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.295ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (13.154ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.367ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.310ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.176ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (104.778ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.390ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.365ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (7.827ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (11.043ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-07-03T16:12:44+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (1.608ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (10.211ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$kMiDHgPMcUBFnh/n5S1YD.ROJnMTgldQhJSL27uDT0TlNu9TriQYm', 0) RETURNING "id"[0m
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 40ms
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#index as HTML
+  [1m[35mSQL (1.132ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 51ms (Views: 48.2ms | Models: 497.528ms)
+Processing by IssuesController#index as HTML
+  [1m[36mSQL (0.766ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.3ms | Models: 0.766ms)
+  [1m[35mSQL (0.809ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"
+  [1m[36mSQL (0.579ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"[0m
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.662ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 2.050ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.654ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.1ms | Models: 0.654ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.634ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.634ms)
+Processing by IssuesController#new as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.792ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 0.792ms)
+Processing by IssuesController#new as HTML
+  [1m[35mSQL (0.722ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.722ms)
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.718ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.1ms | Models: 0.718ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.642ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 0.642ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.765ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 7ms (Views: 3.8ms | Models: 0.765ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.666ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.666ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.698ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 7ms (Views: 3.7ms | Models: 0.698ms)
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.155ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.303ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.305ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.935ms)[0m  SELECT current_schema()
+  [1m[36mSQL (68.793ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (31.992ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (32.108ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (3.915ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (3.812ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (1.060ms)[0m  SELECT version()
+  [1m[36mSQL (0.240ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (10.868ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.364ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.349ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.151ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (96.079ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (57.752ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.306ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.297ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (13.361ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.336ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.285ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.158ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (105.902ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.372ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.278ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (21.110ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.469ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.306ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (10.746ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (122.159ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.424ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.192ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (8.089ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (10.971ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-07-03T16:13:59+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (7.359ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (7.060ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$AEUfMBKvlEF5KJm26ooz9e.TbdoppW5.Vx0drWAZ1Xxln7D3j.hvy', 0) RETURNING "id"[0m
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 40ms
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#index as HTML
+  [1m[35mSQL (1.293ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 52ms (Views: 48.7ms | Models: 631.654ms)
+Processing by IssuesController#index as HTML
+  [1m[36mSQL (0.765ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.765ms)
+  [1m[35mSQL (0.828ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"
+  [1m[36mSQL (0.266ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"[0m
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.655ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 1.749ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.730ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.730ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (1.302ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 8ms (Views: 3.5ms | Models: 1.302ms)
+Processing by IssuesController#new as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.758ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 0.758ms)
+Processing by IssuesController#new as HTML
+  [1m[35mSQL (0.757ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.757ms)
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.333ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.333ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+Completed 500 Internal Server Error in 1ms
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+Completed 500 Internal Server Error in 1ms
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+Completed 500 Internal Server Error in 1ms
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+Completed 500 Internal Server Error in 1ms
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.152ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.288ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.251ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.912ms)[0m  SELECT current_schema()
+  [1m[36mSQL (3.530ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (3.950ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (3.715ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (1.984ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (1.949ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (0.363ms)[0m  SELECT version()
+  [1m[36mSQL (0.201ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (6.443ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.278ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.209ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (12.051ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (97.660ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (49.424ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.259ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.277ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (25.123ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.364ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.248ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (49.226ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (98.257ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.380ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.227ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (13.144ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.441ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.294ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (10.485ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (89.059ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.554ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.189ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (7.912ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (10.990ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-07-03T16:14:33+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (1.657ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (5.018ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$5KzZNDHAxudvVeICn7m1LO0xDMEvjbOuwF6.JZ0RMr32h5Eba.zji', 0) RETURNING "id"[0m
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 40ms
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#index as HTML
+  [1m[35mSQL (1.373ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 53ms (Views: 49.6ms | Models: 503.837ms)
+Processing by IssuesController#index as HTML
+  [1m[36mSQL (0.751ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.751ms)
+  [1m[35mSQL (0.821ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"
+  [1m[36mSQL (0.602ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"[0m
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.670ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 2.093ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.777ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.777ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.682ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 7ms (Views: 3.6ms | Models: 0.682ms)
+Processing by IssuesController#new as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 2ms
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.416ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 0.416ms)
+Processing by IssuesController#new as HTML
+  [1m[35mSQL (0.753ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 4ms (Views: 1.1ms | Models: 0.753ms)
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.312ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.6ms | Models: 0.312ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.747ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+  [1m[36mSQL (0.601ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 5ms (Views: 1.6ms | Models: 1.348ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.711ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+  [1m[36mSQL (0.289ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 5ms (Views: 1.3ms | Models: 1.000ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.764ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+  [1m[36mSQL (0.590ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 5ms (Views: 1.2ms | Models: 1.354ms)
+[datamapper] Setting up the "test" environment:
+[datamapper] Setting up :default repository: 'mahi_test' on postgres
+  [1m[36mSQL (0.444ms)[0m  [1mSET backslash_quote = off[0m
+  [1m[35mSQL (0.267ms)[0m  SET standard_conforming_strings = on
+  [1m[36mSQL (0.252ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (0.863ms)[0m  SELECT current_schema()
+  [1m[36mSQL (11.391ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (65.458ms)[0m  SELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'
+  [1m[36mSQL (31.191ms)[0m  [1mALTER TABLE "comments" DROP CONSTRAINT "comments_issue_fk"[0m
+  [1m[35mSQL (3.974ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'
+  [1m[36mSQL (3.854ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'[0m
+  [1m[35mSQL (0.502ms)[0m  SELECT version()
+  [1m[36mSQL (0.228ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (20.390ms)[0m  DROP TABLE IF EXISTS "comments"
+  [1m[36mSQL (0.358ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.293ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.075ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'comments'[0m
+  [1m[35mSQL (97.102ms)[0m  CREATE TABLE "comments" ("id" SERIAL NOT NULL, "name" VARCHAR(50) NOT NULL, "email" VARCHAR(50), "comment_time" TIMESTAMP NOT NULL, "body_comments" TEXT NOT NULL, "location" VARCHAR(50) NOT NULL, "issue_id" INTEGER NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (49.374ms)[0m  [1mCREATE INDEX "index_comments_issue" ON "comments" ("issue_id")[0m
+  [1m[35mSQL (0.304ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.305ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (21.856ms)[0m  DROP TABLE IF EXISTS "issues"
+  [1m[36mSQL (0.328ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.281ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (3.265ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'issues'[0m
+  [1m[35mSQL (80.734ms)[0m  CREATE TABLE "issues" ("id" SERIAL NOT NULL, "title" VARCHAR(50) NOT NULL, "issue_content" TEXT NOT NULL, "created_at" TIMESTAMP, "submitted_by" VARCHAR(50) NOT NULL, PRIMARY KEY("id"))
+  [1m[36mSQL (0.378ms)[0m  [1mRESET client_min_messages[0m
+  [1m[35mSQL (0.288ms)[0m  SET client_min_messages = warning
+  [1m[36mSQL (13.091ms)[0m  [1mDROP TABLE IF EXISTS "users"[0m
+  [1m[35mSQL (0.237ms)[0m  RESET client_min_messages
+  [1m[36mSQL (0.319ms)[0m  [1mSET client_min_messages = warning[0m
+  [1m[35mSQL (3.178ms)[0m  SELECT COUNT(*) FROM "information_schema"."tables" WHERE "table_type" = 'BASE TABLE' AND "table_schema" = 'public' AND "table_name" = 'users'
+  [1m[36mSQL (105.209ms)[0m  [1mCREATE TABLE "users" ("email" VARCHAR(255) DEFAULT '' NOT NULL, "encrypted_password" VARCHAR(255) DEFAULT '' NOT NULL, "reset_password_token" VARCHAR(50), "reset_password_sent_at" TIMESTAMP, "remember_created_at" TIMESTAMP, "sign_in_count" INTEGER DEFAULT 0, "current_sign_in_at" TIMESTAMP, "last_sign_in_at" TIMESTAMP, "current_sign_in_ip" VARCHAR(50), "last_sign_in_ip" VARCHAR(50), "id" SERIAL NOT NULL, PRIMARY KEY("id"))[0m
+  [1m[35mSQL (0.338ms)[0m  RESET client_min_messages
+  [1m[36mSQL (5.215ms)[0m  [1mSELECT COUNT(*) FROM "information_schema"."table_constraints" WHERE "constraint_type" = 'FOREIGN KEY' AND "table_schema" = 'public' AND "table_name" = 'comments' AND "constraint_name" = 'comments_issue_fk'[0m
+  [1m[35mSQL (7.930ms)[0m  ALTER TABLE "comments" ADD CONSTRAINT "comments_issue_fk" FOREIGN KEY ("issue_id") REFERENCES "issues" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+  [1m[36mSQL (10.981ms)[0m  [1mINSERT INTO "issues" ("title", "issue_content", "created_at", "submitted_by") VALUES ('abc', 'Issue Content', '2012-07-03T16:16:07+05:30', 'test user') RETURNING "id"[0m
+  [1m[35mSQL (0.907ms)[0m  SELECT "id" FROM "users" WHERE "email" = 'test@gmail.com' ORDER BY "id" LIMIT 1
+  [1m[36mSQL (9.564ms)[0m  [1mINSERT INTO "users" ("email", "encrypted_password", "sign_in_count") VALUES ('test@gmail.com', '$2a$04$vzyOVSmdv7PgoA/dzNYksOc5Z9v99t4aYZUXeAQttC23VzcppI1eq', 0) RETURNING "id"[0m
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 39ms
+Processing by IssuesController#index as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#index as HTML
+  [1m[35mSQL (0.469ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 51ms (Views: 48.3ms | Models: 554.193ms)
+Processing by IssuesController#index as HTML
+  [1m[36mSQL (0.792ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.792ms)
+  [1m[35mSQL (0.811ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"
+  [1m[36mSQL (0.541ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" ORDER BY "id"[0m
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.305ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 3ms (Views: 1.6ms | Models: 1.657ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mSQL (0.658ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.658ms)
+Processing by IssuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.638ms)[0m  SELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.638ms)
+Processing by IssuesController#new as HTML
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.768ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.5ms | Models: 0.768ms)
+Processing by IssuesController#new as HTML
+  [1m[35mSQL (0.327ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+Completed 200 OK in 3ms (Views: 1.2ms | Models: 0.327ms)
+Processing by IssuesController#new as HTML
+  [1m[36mSQL (0.731ms)[0m  [1mSELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.2ms | Models: 0.731ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+Redirected to http://test.host/users/sign_in
+Completed 302 Found in 1ms
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.751ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+  [1m[36mSQL (0.296ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 5ms (Views: 1.8ms | Models: 1.047ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.723ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+  [1m[36mSQL (0.596ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 5ms (Views: 1.2ms | Models: 1.319ms)
+Processing by IssuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mSQL (0.770ms)[0m  SELECT "id", "email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "sign_in_count", "current_sign_in_at", "last_sign_in_at", "current_sign_in_ip", "last_sign_in_ip" FROM "users" WHERE "id" IN (1) LIMIT 1
+  [1m[36mSQL (0.618ms)[0m  [1mSELECT "id", "title", "created_at", "submitted_by" FROM "issues" WHERE "id" = 1 LIMIT 1[0m
+Completed 200 OK in 5ms (Views: 1.3ms | Models: 1.388ms)

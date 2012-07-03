@@ -28,7 +28,12 @@ class IssuesController < ApplicationController
   # GET /issues/new
   # GET /issues/new.json
   def new
-    @issue = Issue.new
+    if current_user
+      @issue = Issue.new
+    else
+      redirect_to new_user_session_path and return
+    end
+    
 
     respond_to do |format|
       format.html # new.html.erb
@@ -38,7 +43,11 @@ class IssuesController < ApplicationController
 
   # GET /issues/1/edit
   def edit
-    @issue = Issue.get(params[:id])
+    if current_user
+      @issue = Issue.get(params[:id])
+    else
+      redirect_to new_user_session_path and return
+    end
   end
 
   # POST /issues
