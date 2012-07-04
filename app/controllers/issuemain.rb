@@ -91,12 +91,9 @@ class IssuesController < ApplicationController
   # DELETE /issues/1
   # DELETE /issues/1.json
   def destroy
-    if current_user
-      @issue = Issue.get(params[:id])
-      @issue.destroy
-    else
-      redirect_to new_user_session_path and return
-    end
+    @issue = Issue.get(params[:id])
+    @issue.destroy
+    
     respond_to do |format|
       format.html { redirect_to issues_url }
       format.json { head :no_content }

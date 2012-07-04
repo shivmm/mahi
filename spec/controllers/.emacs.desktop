@@ -1,0 +1,106 @@
+;; -*- mode: emacs-lisp; coding: emacs-mule; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Tue Jul  3 19:07:15 2012
+;; Desktop file format version 206
+;; Emacs version 23.1.1
+
+;; Global section:
+(setq file-name-history '("~/src/mahi/spec/controllers/" "/home/uadmin/src/mahi/spec/controllers/issues_controller_spec.rb" "/home/uadmin/src/mars_rover/.rvmrc" "/home/uadmin/src/mahi/config.ru" "/home/uadmin/src/mahi/config/application.rb" "/home/uadmin/src/mahi/.rspec" "/home/uadmin/src/mahi/spec/controllers/issues_controller_spec.rb" "/home/uadmin/src/mahi/config.ru" "/home/uadmin/src/mahi/.gitignore" "/home/uadmin/src/mahi/app/controllers/issues_controller.rb" "/home/uadmin/src/mahi/spec/controllers/issues_controller_spec.rb" "/home/uadmin/src/mahi/app/models/issue.rb" "/home/uadmin/src/mahi/spec/controllers/issues_controller_spec.rb"))
+(setq desktop-missing-file-warning nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+(setq search-ring '("create"))
+(setq regexp-search-ring nil)
+(setq register-alist nil)
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/spec/controllers/issues_controller_spec.rb"
+  "issues_controller_spec.rb"
+  'ruby-mode
+  nil
+  5478
+  '(5795 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/app/controllers/issues_controller.rb"
+  "issues_controller.rb"
+  'ruby-mode
+  nil
+  1841
+  '(1206 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mars_rover/.rvmrc"
+  ".rvmrc"
+  'fundamental-mode
+  nil
+  1
+  '(nil nil)
+  nil
+  nil
+  nil)
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/config.ru"
+  "config.ru"
+  'conf-colon-mode
+  nil
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/config/application.rb"
+  "application.rb"
+  'ruby-mode
+  nil
+  753
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/.rspec"
+  ".rspec"
+  'fundamental-mode
+  nil
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/.gitignore"
+  ".gitignore"
+  'fundamental-mode
+  nil
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/app/models/issue.rb"
+  "issue.rb"
+  'ruby-mode
+  nil
+  515
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
