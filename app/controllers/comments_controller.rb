@@ -2,41 +2,53 @@ class CommentsController < ApplicationController
   # GET /comments
   # GET /comments.json
   def index
-    @comments = Comment.all
-
+    if current_user
+      @comments = Comment.all
+    else
+      redirect_to new_user_session_path and return
+    end
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @comments }
     end
   end
-
+  
   # GET /comments/1
   # GET /comments/1.json
   def show
     @comment = Comment.get(params[:id])
-
+    
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @comment }
     end
   end
-
+  
   # GET /comments/new
   # GET /comments/new.json
   def new
-    @comment = Comment.new
-
+    if current_user
+      @comment = Comment.new	
+    else	
+      redirect_to new_user_session_path and return
+    end
+    
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @comment }
     end
   end
-
+  
   # GET /comments/1/edit
   def edit
-    @comment = Comment.get(params[:id])
+    if current_user
+      @comment = Comment.get(params[:id])
+    else
+      redirect_to new_user_session_path and return
+    end
   end
-
+  
   # POST /comments
   # POST /comments.json
   def create
