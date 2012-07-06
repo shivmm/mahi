@@ -7,7 +7,7 @@ class Comment
 
   property :id,         Serial
   #property :name,       String,   :required =>true
-  # property :email,      String,   :format => :email_address
+  #property :email,      String,   :format => :email_address
   property :comment_time, DateTime, :required =>true
   property :body_comments, Text, :required =>true
   property :location, String, :required => true

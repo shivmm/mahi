@@ -126,6 +126,111 @@ describe CommentsController do
       end
     end # describe logged in
   end #describe edit
-end 
+  
+  describe "create" do
+    describe "not logged in" do
+      before :each do
+        @request.env["devise.mapping"] = Devise.mappings[:user]
+        @cc = {:user_id => @u.id, :comment_time => Time.now, :body_comments => "test", :location => "abc",:issue_id => @my_issue.id}
+        post :create, {:comment => @cc}
+      end
+      
+      it "should redirect to sign in page" do
+        response.should redirect_to(new_user_session_path)
+      end
+    end #describe not logged in                                                                                                                              
+    
+    describe "logged in" do
+      before :each do
+        @request.env["devise.mapping"] = Devise.mappings[:user]
+        sign_in @u
+        @cc = {:user_id => @u.id, :comment_time => Time.now, :body_comments => "test", :location => "abc",:issue_id => @my_issue.id}
+        post :create, {:comment => @cc}
+      end
+      
+      it "should create an comment" do
+        expect {post :create, {:comment => @cc}}.to change(Comment, :count).by(1)
+      end
+      
+      it "should redirect to the comment" do
+        response.should redirect_to(comment_path(Comment.last))
+      end
+      
+      it "should assign correct data" do
+        assigns(:comment).should == Comment.last
+      end
+    end # describe logged in  
+  end # describe create
+  
+  
+  describe "update" do 
+    describe "not logged in" do
+      before :each do
+        @request.env["devise.mapping"] = Devise.mappings[:user]
+        @cc = {:user_id => @u.id, :comment_time => Time.now, :body_comments => "test", :location => "abc",:issue_id => @my_issue.id}
+        post :update, {:id => @c.id, :comment => @cc }
+      end
+      
+      it "should redirect to sign in page" do
+        response.should redirect_to(new_user_session_path)
+      end
+    end #describe not logged in                                                                                                                              
+    
+    describe "logged in" do
+      before :each do
+        @request.env["devise.mapping"] = Devise.mappings[:user]
+        @cc = {:user_id => @u.id, :comment_time => Time.now, :body_comments => "test", :location => "abc",:issue_id => @my_issue.id}
+        sign_in @u
+        post :update, {:id => @c.id, :comment => @cc}
+      end
+      
+      it "should redirect to the comment" do
+        response.should redirect_to(@c)
+      end
+      
+      it "should assign correct data" do
+        post :update, {:id => @c.id, :comment => @cc} 
+        assigns(:comment).should == @c
+      end
+    end # describe logged in  
+  end #describe update 
+  
+  describe "destroy" do
+    describe "not logged in" do
+      before :each do
+        @request.env["devise.mapping"] = Devise.mappings[:user]
+        @c1 = Comment.create(:user_id => @u.id, :comment_time => Time.now, :body_comments => "test", :location => "abc",:issue_id => @my_issue.id )
+        post :destroy, {:id => @c1.id}
+      end
+      
+      it "should redirect to sign in page" do
+        response.should redirect_to(new_user_session_path)
+      end
+    end#describe not logged in 
+    
+    describe "logged in" do
+      before :each do
+        
+        @request.env["devise.mapping"] = Devise.mappings[:user]
+        @c1 = Comment.create(:user_id => @u.id, :comment_time => Time.now, :body_comments => "test", :location => "abc",:issue_id => @my_issue.id )
+        sign_in @u
+      end
+      
+      it "should redirect correctly" do
+        post :destroy, {:id => @c1.id}
+        response.should redirect_to(comments_url)
+      end
+      
+      it "should assign correct" do
+        post :destroy, {:id => @c1.id}
+        assigns(:comment).id.should == @c1.id
+      end
+      
+      it "should destroy a comment" do
+        expect {post :destroy, {:id => @c1.id}}.to change(Comment, :count).by(-1)
+      end   
+    end #Describe logged in   
+  end # Describe Destroy
+end   
 
 
