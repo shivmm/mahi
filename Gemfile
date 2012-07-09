@@ -71,7 +71,9 @@ group :test, :development do
   gem 'dm-rspec2'
   gem 'turn', '~> 0.9.4', :require => false
   gem 'debugger'
+  gem 'factory_girl'
 end
+
 
 
 

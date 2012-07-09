@@ -3,10 +3,9 @@ require 'spec_helper'
 
 describe CommentsController do
   before:all do 
-    @u = User.create(:email => "test@gmail.com", :password => "password", :password_confirmation => "password" )
-    @my_issue = Issue.create!(:title => "abc", :issue_content =>"Issue Content", :created_at => Time.now, :submitted_by => "test user")
-    @c = Comment.create(:user_id => @u.id, :comment_time => Time.now, :body_comments => "test", :location => "abc",:issue_id => @my_issue.id ) 
-    
+    @u = FactoryGirl.create(:user)
+    @my_issue = FactoryGirl.create(:issue, :user_id => @u.id)
+    @c = FactoryGirl.create(:comment, :user_id  => @u.id ) 
   end
   
   describe "index" do 
@@ -23,7 +22,7 @@ describe CommentsController do
       it "should assign correct data" do
         assigns(:comment).should == nil
       end
-    end
+    end#describe not logged in 
     
     describe "logged in" do
       before :each do
@@ -44,7 +43,7 @@ describe CommentsController do
   describe "show" do
     before :each do
       @request.env["devise.mapping"] = Devise.mappings[:user]
-      get :show, {:id => @my_issue.id, :comment => @c }
+      get :show, {:id => @c.id }
     end
     
     it "should respond ok" do
@@ -110,7 +109,7 @@ describe CommentsController do
       before :each do
         @request.env["devise.mapping"] = Devise.mappings[:user]
         sign_in @u
-        get :edit, {:id => @my_issue.id}
+        get :edit, {:id => @c.id}
       end
       
       it "should render new template" do
@@ -128,11 +127,13 @@ describe CommentsController do
   end #describe edit
   
   describe "create" do
+    before :all do
+      @valid_attributes = {:body_comments => "body", :location => "Mumbai", :user_id => @u.id, :issue_id => @my_issue.id}
+    end
     describe "not logged in" do
       before :each do
         @request.env["devise.mapping"] = Devise.mappings[:user]
-        @cc = {:user_id => @u.id, :comment_time => Time.now, :body_comments => "test", :location => "abc",:issue_id => @my_issue.id}
-        post :create, {:comment => @cc}
+        post :create, {:comment => @valid_attributes}
       end
       
       it "should redirect to sign in page" do
@@ -144,12 +145,11 @@ describe CommentsController do
       before :each do
         @request.env["devise.mapping"] = Devise.mappings[:user]
         sign_in @u
-        @cc = {:user_id => @u.id, :comment_time => Time.now, :body_comments => "test", :location => "abc",:issue_id => @my_issue.id}
-        post :create, {:comment => @cc}
+        post :create, {:comment => @valid_attributes}
       end
       
       it "should create an comment" do
-        expect {post :create, {:comment => @cc}}.to change(Comment, :count).by(1)
+        expect {post :create, {:comment => @valid_attributes}}.to change(Comment, :count).by(1)
       end
       
       it "should redirect to the comment" do
@@ -167,8 +167,8 @@ describe CommentsController do
     describe "not logged in" do
       before :each do
         @request.env["devise.mapping"] = Devise.mappings[:user]
-        @cc = {:user_id => @u.id, :comment_time => Time.now, :body_comments => "test", :location => "abc",:issue_id => @my_issue.id}
-        post :update, {:id => @c.id, :comment => @cc }
+        @cc = FactoryGirl.create(:comment, :user_id  => @u.id )
+        put :update, {:id => @c.id, :comment => @cc }
       end
       
       it "should redirect to sign in page" do
@@ -177,21 +177,30 @@ describe CommentsController do
     end #describe not logged in                                                                                                                              
     
     describe "logged in" do
+      before :all do
+        @valid_attributes = {:body_comments => "body", :location => "Mumbai", :user_id => @u.id, :issue_id => @my_issue.id}
+      end
+
       before :each do
         @request.env["devise.mapping"] = Devise.mappings[:user]
-        @cc = {:user_id => @u.id, :comment_time => Time.now, :body_comments => "test", :location => "abc",:issue_id => @my_issue.id}
+        @cc = FactoryGirl.create(:comment, :user_id  => @u.id )
         sign_in @u
-        post :update, {:id => @c.id, :comment => @cc}
+        put :update, {:id => @cc.id, :comment => {:body_comments => "def"}}
       end
       
       it "should redirect to the comment" do
-        response.should redirect_to(@c)
+        response.should redirect_to(@cc)
       end
       
-      it "should assign correct data" do
-        post :update, {:id => @c.id, :comment => @cc} 
-        assigns(:comment).should == @c
+      it "should call correct method" do
+        Comment.any_instance.should_receive(:update).with("body_comments" => "def")
+        put :update, {:id => @cc.id, :comment => {:body_comments => "def"}}
       end
+
+      it "should assign correct data" do
+        assigns(:comment).should == @cc
+      end
+
     end # describe logged in  
   end #describe update 
   
@@ -199,8 +208,8 @@ describe CommentsController do
     describe "not logged in" do
       before :each do
         @request.env["devise.mapping"] = Devise.mappings[:user]
-        @c1 = Comment.create(:user_id => @u.id, :comment_time => Time.now, :body_comments => "test", :location => "abc",:issue_id => @my_issue.id )
-        post :destroy, {:id => @c1.id}
+        @c1 = FactoryGirl.create(:comment, :user_id  => @u.id )
+        delete :destroy, :id => @c1.id
       end
       
       it "should redirect to sign in page" do
@@ -212,17 +221,17 @@ describe CommentsController do
       before :each do
         
         @request.env["devise.mapping"] = Devise.mappings[:user]
-        @c1 = Comment.create(:user_id => @u.id, :comment_time => Time.now, :body_comments => "test", :location => "abc",:issue_id => @my_issue.id )
+        @c1 = FactoryGirl.create(:comment, :user_id  => @u.id )
         sign_in @u
       end
       
       it "should redirect correctly" do
-        post :destroy, {:id => @c1.id}
+        delete :destroy, :id => @c1.id
         response.should redirect_to(comments_url)
       end
       
       it "should assign correct" do
-        post :destroy, {:id => @c1.id}
+        delete :destroy, :id => @c1.id
         assigns(:comment).id.should == @c1.id
       end
       
@@ -234,3 +243,4 @@ describe CommentsController do
 end   
 
 
+  

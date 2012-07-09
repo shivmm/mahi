@@ -3,8 +3,9 @@ require 'spec_helper'
 
 describe IssuesController do
   before:all do
-    @my_issue = Issue.create!(:title => "abc", :issue_content =>"Issue Content", :created_at => Time.now, :submitted_by => "test user")
-    @u = User.create(:email => "test@gmail.com", :password => "password", :password_confirmation => "password")
+    @u = FactoryGirl.create(:user)
+    @my_issue = FactoryGirl.create(:issue, :user_id => @u.id)
+    
   end
   
   describe "index" do
@@ -133,7 +134,7 @@ describe IssuesController do
     describe "not logged in" do
       before :each do
         @request.env["devise.mapping"] = Devise.mappings[:user]
-        @valid_issue_params = {:title => "abc", :issue_content =>"Issue Content", :created_at => Time.now, :submitted_by => "test user"}
+        @valid_issue_params = {:title => "abc", :issue_content =>"Issue Content"}
         post :create, {:issue => @valid_issue_params}
       end
       
@@ -146,7 +147,7 @@ describe IssuesController do
       before :each do
         @request.env["devise.mapping"] = Devise.mappings[:user]
         sign_in @u
-        @valid_issue_params = {:title => "abc", :issue_content =>"Issue Content", :created_at => Time.now, :submitted_by => "test user"}
+        @valid_issue_params = {:title => "abc", :issue_content =>"Issue Content",:user_id => @u.id}
         post :create, {:issue => @valid_issue_params}
       end
       
@@ -163,15 +164,14 @@ describe IssuesController do
       end
       
     end # describe logged in  
-    
   end # describe create
   
   describe "update" do 
     describe "not logged in" do
       before :each do
         @request.env["devise.mapping"] = Devise.mappings[:user]
-        @valid_issue_params = {:title => "abc", :issue_content =>"Issue Content", :created_at => Time.now, :submitted_by => "test user"}
-        post :update, {:id => @my_issue.id, :issue => @valid_issue_params }
+        @valid_issue_params ={:title => "abc", :issue_content =>"Issue Content",:user_id => @u.id} 
+        put :update, {:id => @my_issue.id, :issue => @valid_issue_params }
       end
       
       it "should redirect to sign in page" do
@@ -182,9 +182,9 @@ describe IssuesController do
     describe "logged in" do
       before :each do
         @request.env["devise.mapping"] = Devise.mappings[:user]
-        @valid_issue_params = {:title => "abc", :issue_content =>"Issue Content", :created_at => Time.now, :submitted_by => "test user"}
+        @valid_issue_params = {:title => "abc", :issue_content =>"Issue Content",:user_id => @u.id}
         sign_in @u
-        post :update, {:id => @my_issue.id, :issue => @valid_issue_params}
+        put :update, {:id => @my_issue.id, :issue => @valid_issue_params}
       end
       
       it "should redirect to the issue" do
@@ -192,7 +192,7 @@ describe IssuesController do
       end
       
       it "should assign correct data" do
-        post :update, {:id => @my_issue.id, :issue => @valid_issue_params} 
+        put :update, {:id => @my_issue.id, :issue => @valid_issue_params} 
         assigns(:issue).should == @my_issue
       end
     end # describe logged in  
@@ -202,8 +202,8 @@ describe IssuesController do
     describe "not logged in" do
       before :each do
         @request.env["devise.mapping"] = Devise.mappings[:user]
-       @my_issue1 = Issue.create!(:title => "abc", :issue_content =>"Issue Content", :created_at => Time.now, :submitted_by => "test user")
-        post :destroy, {:id => @my_issue1.id}
+       @my_issue1 = FactoryGirl.create(:issue)
+        delete :destroy, :id => @my_issue1.id
       end
       
       it "should redirect to sign in page" do
@@ -212,25 +212,24 @@ describe IssuesController do
     end
     
     describe "logged in" do
-      before :each do
-        
+      before :each do        
         @request.env["devise.mapping"] = Devise.mappings[:user]
-        @my_issue1 = Issue.create!(:title => "abc", :issue_content =>"Issue Content", :created_at => Time.now, :submitted_by => "test user")
+        @my_issue1 = FactoryGirl.create(:issue)
         sign_in @u
       end
       
       it "should redirect correctly" do
-        post :destroy, {:id => @my_issue1.id}
+        delete :destroy,:id => @my_issue1.id
         response.should redirect_to(issues_url)
       end
       
       it "should assign correct" do
-        post :destroy, {:id => @my_issue1.id}
+        delete :destroy, :id => @my_issue1.id
         assigns(:issue).id.should == @my_issue1.id
       end
       
       it "should destroy a conversation" do
-        expect {post :destroy, {:id => @my_issue1.id}}.to change(Issue, :count).by(-1)
+        expect {delete :destroy, {:id => @my_issue1.id}}.to change(Issue, :count).by(-1)
       end   
     end #Describe logged in   
   end # Describe Destroy
