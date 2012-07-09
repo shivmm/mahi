@@ -1,13 +1,11 @@
 class IssuesController < ApplicationController
+  
+  load_and_authorize_resource
+
   # GET /issues
   # GET /issues.json
   def index
-    if current_user
-      @issues = Issue.all
-    else
-      redirect_to new_user_session_path and return
-    end
-
+    @issues = Issue.all
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @issues }

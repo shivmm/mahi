@@ -4,8 +4,9 @@ require 'spec_helper'
 describe IssuesController do
   before:all do
     @u = FactoryGirl.create(:user)
+    @o = FactoryGirl.create(:user)
     @my_issue = FactoryGirl.create(:issue, :user_id => @u.id)
-    
+    @other_issue = FactoryGirl.create(:issue, :user_id => @o.id)
   end
   
   describe "index" do
@@ -13,14 +14,9 @@ describe IssuesController do
       before :each do
         @request.env["devise.mapping"] = Devise.mappings[:user]
         get :index
-      end
-      
+      end      
       it "should redirect to sign in page" do
-        response.should redirect_to(new_user_session_path)
-      end
-      
-      it "should assign correct data" do
-        assigns(:issues).should == nil
+        response.should be_ok
       end
     end
   end
@@ -35,7 +31,7 @@ describe IssuesController do
     end
     
     it "should assign correct data" do
-      assigns(:issues).should == [@my_issue]
+      assigns(:issues).should == [@my_issue, @other_issue]
     end
   end
   
@@ -108,24 +104,37 @@ describe IssuesController do
     end #describe not logged in
     
     describe "logged in" do
-      before :each do
-        @request.env["devise.mapping"] = Devise.mappings[:user]
-        sign_in @u
-        get :edit, {:id => @my_issue.id}
-      end
-      
-      it "should render new template" do
-        response.should render_template(:edit)
-      end
-      
-      it "should assign correct data" do
-        assigns(:issue).should == @my_issue
-      end
-      
-      it "should respond ok" do
-        response.should be_ok
-      end
-      
+      describe "my issues" do
+        before :each do
+          @request.env["devise.mapping"] = Devise.mappings[:user]
+          sign_in @u
+          get :edit, {:id => @my_issue.id}
+        end
+        
+        it "should render new template" do
+          response.should render_template(:edit)
+        end
+        
+        it "should assign correct data" do
+          assigns(:issue).should == @my_issue
+        end
+        
+        it "should respond ok" do
+          response.should be_ok
+        end
+      end #my issue
+
+      describe "others' issue" do
+        before :each do
+          @request.env["devise.mapping"] = Devise.mappings[:user]
+          sign_in @u
+        end
+        
+        it "should raise CanCan::Unauthorized" do
+          expect { get :edit, {:id => @other_issue.id} }.to raise_error(CanCan::Unauthorized)
+        end
+      end # others issue
+
     end # describe logged in    
     
   end #describe edit
