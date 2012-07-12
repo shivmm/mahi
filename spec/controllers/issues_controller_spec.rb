@@ -3,6 +3,8 @@ require 'spec_helper'
 
 describe IssuesController do
   before:all do
+    Comment.all.destroy!
+    Issue.all.destroy!
     @u = FactoryGirl.create(:user)
     @o = FactoryGirl.create(:user)
     @my_issue = FactoryGirl.create(:issue, :user_id => @u.id)
