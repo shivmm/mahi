@@ -85,7 +85,6 @@ describe IssuesController do
       end
       
     end # describe logged in
-    
   end #describe new
   
   describe "edit" do
@@ -98,7 +97,7 @@ describe IssuesController do
         expect { get :edit, {:id => @my_issue.id} }.to raise_error(CanCan::Unauthorized)
       end
     end #describe not logged in
-      
+    
     describe "logged in" do
       describe "my issues" do
         before :each do
@@ -119,7 +118,7 @@ describe IssuesController do
           response.should be_ok
         end
       end #my issue
-
+      
       describe "others' issue" do
         before :each do
           @request.env["devise.mapping"] = Devise.mappings[:user]
@@ -154,8 +153,8 @@ describe IssuesController do
         post :create, {:issue => @valid_issue_params}
       end
       
-        it "should create an issue" do
-          expect {post :create, {:issue => @valid_issue_params}}.to change(Issue, :count).by(1)
+      it "should create an issue" do
+        expect {post :create, {:issue => @valid_issue_params}}.to change(Issue, :count).by(1)
       end
       
       it "should redirect to the issue" do
@@ -200,19 +199,19 @@ describe IssuesController do
         end
       end # describe my issue  
     end # describe logged  in  
-  
+    
     describe "others' issue" do
-        before :each do
+      before :each do
         @request.env["devise.mapping"] = Devise.mappings[:user]
         sign_in @u
       end
       
       it "should raise CanCan::Unauthorized" do
-         expect { put :update, {:id => @other_issue.id, :issue => @valid_issue_params } }.to raise_error(CanCan::Unauthorized)
+        expect { put :update, {:id => @other_issue.id, :issue => @valid_issue_params } }.to raise_error(CanCan::Unauthorized)
       end
     end # describe other login
   end # describe update
-
+  
   describe "destroy" do
     describe "not logged in" do
       before :each do
@@ -229,7 +228,7 @@ describe IssuesController do
       describe "my issue" do 
         before :each do        
           @request.env["devise.mapping"] = Devise.mappings[:user]
-            @my_issue1 = FactoryGirl.create(:issue, :user => @u)
+          @my_issue1 = FactoryGirl.create(:issue, :user => @u)
           sign_in @u
         end
         
@@ -250,7 +249,7 @@ describe IssuesController do
     end # describe logged in  
     
     describe "others' issue" do
-        before :each do
+      before :each do
         @request.env["devise.mapping"] = Devise.mappings[:user]
         sign_in @u
       end

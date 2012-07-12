@@ -6,12 +6,12 @@ class Ability
       if user.admin?
         can :access, :all
       else
-        can :access, :issues, :user_id => user.id
-        can :read, :issues
+        can :access, [:issues, :comments],  :user_id => user.id
+        can :read, [:issues, :comments]
         end
     else
       can :read, :issues
-       can :create, [:users, :session]
+    
     end
      
 
