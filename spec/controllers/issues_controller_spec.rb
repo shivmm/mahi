@@ -52,19 +52,16 @@ describe IssuesController do
     it "should assign correct data" do 
       assigns(:issue).should == @my_issue
     end
-  end
-  
- # describe show
+  end # describe show
 
   describe "new" do
     describe "not logged in" do
       before :each do
         @request.env["devise.mapping"] = Devise.mappings[:user]
-        get :new
       end
       
-      it "should redirect to sign in page" do
-        response.should redirect_to(new_user_session_path)
+      it "should raise an exception" do
+        expect { get :new}.to raise_error(CanCan::Unauthorized)
       end
     end #describe not logged in
     
@@ -95,14 +92,13 @@ describe IssuesController do
     describe "not logged in" do
       before :each do
         @request.env["devise.mapping"] = Devise.mappings[:user]
-        get :edit, {:id => @my_issue.id}
       end
       
-      it "should redirect to sign in page" do
-        response.should redirect_to(new_user_session_path)
+      it "should raise an exception" do
+        expect { get :edit, {:id => @my_issue.id} }.to raise_error(CanCan::Unauthorized)
       end
     end #describe not logged in
-    
+      
     describe "logged in" do
       describe "my issues" do
         before :each do
@@ -134,7 +130,6 @@ describe IssuesController do
           expect { get :edit, {:id => @other_issue.id} }.to raise_error(CanCan::Unauthorized)
         end
       end # others issue
-
     end # describe logged in    
     
   end #describe edit
@@ -144,11 +139,10 @@ describe IssuesController do
       before :each do
         @request.env["devise.mapping"] = Devise.mappings[:user]
         @valid_issue_params = {:title => "abc", :issue_content =>"Issue Content"}
-        post :create, {:issue => @valid_issue_params}
       end
       
-      it "should redirect to sign in page" do
-        response.should redirect_to(new_user_session_path)
+      it "should raise CanCan::Unauthorized" do
+        expect { post :create, {:issue => @valid_issue_params} }.to raise_error(CanCan::Unauthorized)         
       end
     end #describe not logged in                                                                                                                              
     
@@ -160,8 +154,8 @@ describe IssuesController do
         post :create, {:issue => @valid_issue_params}
       end
       
-      it "should create an issue" do
-        expect {post :create, {:issue => @valid_issue_params}}.to change(Issue, :count).by(1)
+        it "should create an issue" do
+          expect {post :create, {:issue => @valid_issue_params}}.to change(Issue, :count).by(1)
       end
       
       it "should redirect to the issue" do
@@ -172,7 +166,7 @@ describe IssuesController do
         assigns(:issue).should == Issue.last
       end
       
-    end # describe logged in  
+    end # describe login in  
   end # describe create
   
   describe "update" do 
@@ -180,70 +174,93 @@ describe IssuesController do
       before :each do
         @request.env["devise.mapping"] = Devise.mappings[:user]
         @valid_issue_params ={:title => "abc", :issue_content =>"Issue Content",:user_id => @u.id} 
-        put :update, {:id => @my_issue.id, :issue => @valid_issue_params }
       end
       
-      it "should redirect to sign in page" do
-        response.should redirect_to(new_user_session_path)
+      it "should raise CanCan::Unauthorized" do        
+        expect { put :update, {:id => @my_issue.id, :issue => @valid_issue_params } }.to raise_error(CanCan::Unauthorized)
       end
     end #describe not logged in                                                                                                                              
     
     describe "logged in" do
-      before :each do
-        @request.env["devise.mapping"] = Devise.mappings[:user]
-        @valid_issue_params = {:title => "abc", :issue_content =>"Issue Content",:user_id => @u.id}
-        sign_in @u
-        put :update, {:id => @my_issue.id, :issue => @valid_issue_params}
-      end
-      
-      it "should redirect to the issue" do
-        response.should redirect_to(@my_issue)
-      end
-      
-      it "should assign correct data" do
-        put :update, {:id => @my_issue.id, :issue => @valid_issue_params} 
-        assigns(:issue).should == @my_issue
-      end
-    end # describe logged in  
-  end  
-  describe "destroy" do
+      describe "my issue" do 
+        before :each do
+          @request.env["devise.mapping"] = Devise.mappings[:user]
+          @valid_issue_params = {:title => "abc", :issue_content =>"Issue Content",:user_id => @u.id}
+          sign_in @u
+          put :update, {:id => @my_issue.id, :issue => @valid_issue_params}
+        end
+        
+        it "should redirect to the issue" do
+          response.should redirect_to(@my_issue)
+        end
+        
+        it "should assign correct data" do
+          put :update, {:id => @my_issue.id, :issue => @valid_issue_params} 
+          assigns(:issue).should == @my_issue
+        end
+      end # describe my issue  
+    end # describe logged  in  
   
+    describe "others' issue" do
+        before :each do
+        @request.env["devise.mapping"] = Devise.mappings[:user]
+        sign_in @u
+      end
+      
+      it "should raise CanCan::Unauthorized" do
+         expect { put :update, {:id => @other_issue.id, :issue => @valid_issue_params } }.to raise_error(CanCan::Unauthorized)
+      end
+    end # describe other login
+  end # describe update
+
+  describe "destroy" do
     describe "not logged in" do
       before :each do
         @request.env["devise.mapping"] = Devise.mappings[:user]
-       @my_issue1 = FactoryGirl.create(:issue)
-        delete :destroy, :id => @my_issue1.id
+        @my_issue1 = FactoryGirl.create(:issue)
       end
       
-      it "should redirect to sign in page" do
-        response.should redirect_to(new_user_session_path)
+      it "should raise CanCan::Unauthorized" do        
+        expect { delete :destroy, {:id => @my_issue1.id } }.to raise_error(CanCan::Unauthorized)
       end
-    end
+    end # describe not logged in 
     
     describe "logged in" do
-      before :each do        
+      describe "my issue" do 
+        before :each do        
+          @request.env["devise.mapping"] = Devise.mappings[:user]
+            @my_issue1 = FactoryGirl.create(:issue, :user => @u)
+          sign_in @u
+        end
+        
+        it "should redirect correctly" do
+          delete :destroy,:id => @my_issue1.id
+          response.should redirect_to(issues_url)
+        end
+        
+        it "should assign correct" do
+          delete :destroy, :id => @my_issue1.id
+          assigns(:issue).id.should == @my_issue1.id
+        end
+        
+        it "should destroy an issue" do
+          expect {delete :destroy, {:id => @my_issue1.id}}.to change(Issue, :count).by(-1)
+        end   
+      end #Describe my issue 
+    end # describe logged in  
+    
+    describe "others' issue" do
+        before :each do
         @request.env["devise.mapping"] = Devise.mappings[:user]
-        @my_issue1 = FactoryGirl.create(:issue)
         sign_in @u
       end
       
-      it "should redirect correctly" do
-        delete :destroy,:id => @my_issue1.id
-        response.should redirect_to(issues_url)
+      it "should raise CanCan::Unauthorized" do
+        expect { delete :destroy, {:id => @other_issue.id} }.to raise_error(CanCan::Unauthorized)
       end
-      
-      it "should assign correct" do
-        delete :destroy, :id => @my_issue1.id
-        assigns(:issue).id.should == @my_issue1.id
-      end
-      
-      it "should destroy a conversation" do
-        expect {delete :destroy, {:id => @my_issue1.id}}.to change(Issue, :count).by(-1)
-      end   
-    end #Describe logged in   
-  end # Describe Destroy
-end  
-
+    end # Describe other issue  
+  end # Describe destory 
+end # Describe IssuesController  
 
 
 

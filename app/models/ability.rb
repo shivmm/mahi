@@ -8,9 +8,10 @@ class Ability
       else
         can :access, :issues, :user_id => user.id
         can :read, :issues
-      end
+        end
     else
       can :read, :issues
+       can :create, [:users, :session]
     end
      
 
