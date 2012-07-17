@@ -27,3 +27,4 @@ RSpec.configure do |config|
 end
 
 require './spec/factories.rb'
+require './spec/support/login_group.rb'
