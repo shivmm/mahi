@@ -47,7 +47,7 @@ class User
   # property :invitation_token, String, :length => 255
 
   property :id, Serial
-  property :role, Enum[:admin, :normal], :default => :normal
+  property :role, Enum[:admin, :user], :default => :user
 
   def admin?
     role == :admin

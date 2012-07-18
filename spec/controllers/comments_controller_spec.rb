@@ -163,14 +163,14 @@ describe CommentsController do
             delete :destroy, {:id => @c1.id }
             response.should redirect_to(comments_url)
           }
-        end # describe my issue
+        end # describe my comment
         
         
         describe "other comment" do
           it "should raise CanCan::Unauthorized" do
             expect { delete :destroy, {:id => @other_comment.id} }.to raise_error(CanCan::Unauthorized)
           end
-        end # other issue
+        end # other comment
       end # describe destroy 
     end#logged_in
   end#make_users
