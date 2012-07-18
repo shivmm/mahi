@@ -2,29 +2,84 @@ require 'spec_helper'
 
 describe IssuesController do
   it_should_behave_like "make_users" do
-    before:all do
-      Comment.all.destroy!
-      Issue.all.destroy!
-      @my_issue = FactoryGirl.create(:issue, :user_id => @u.id)
-      @other_issue = FactoryGirl.create(:issue, :user_id => @o.id)
-    end
     
     context "not logged in" do
+      before:all do
+        Comment.all.destroy!
+        Issue.all.destroy!
+        @my_issue = FactoryGirl.create(:issue, :user_id => @u.id)
+        @other_issue = FactoryGirl.create(:issue, :user_id => @o.id)
+      end
+
       describe "index" do
         before(:each) { get :index }
         
         it("responds ok") { response.should be_ok }
         it("assigns @issues") { assigns(:issues).should == [@my_issue, @other_issue] }
       end 
-    end
-  
-  # describe "new" do 
-  
-  #  it "should raise an exception" do
-    # expect { get :new}.to raise_error(CanCan::Unauthorized)
-       # end
-     # end  
+   
+      describe "show" do
+        before(:each) { get :show, {:id => @my_issue.id} }
+
+        it("responds ok") { response.should be_ok }
+        it("assigns @issue") { assigns(:issue).should == @my_issue }
+      end #show   
+      
+      describe "new" do
+        it "should raise an exception" do
+          expect { get :new}.to raise_error(CanCan::Unauthorized)
+        end
+        
+        # it "should redirect to sign in page" do
+        # response.should redirect_to(new_user_session_path)
+        #end
+      end#new
+      
+      describe "edit" do 
+        it "should raise an exception" do
+          expect { get :edit, {:id => @my_issue.id} }.to raise_error(CanCan::Unauthorized)
+        end
+      end #edit
+
+      describe "create" do
+        before :each do
+          @valid_issue_params = {:title => "abc", :issue_content =>"Issue Content"}
+        end
+        
+        it "should raise CanCan::Unauthorized" do
+          expect { post :create, {:issue => @valid_issue_params} }.to raise_error(CanCan::Unauthorized)
+        end
+      end#create
+
+      describe "update" do
+       before :each do
+          @valid_issue_params = {:title => "abc", :issue_content =>"Issue Content"}
+        end
+        it "should raise CanCan::Unauthorized" do
+          expect { put :update, {:id => @my_issue.id, :issue => @valid_issue_params } }.to raise_error(CanCan::Unauthorized)
+        end
+      end#update
+      
+      describe "destroy" do
+        before :each do 
+          @my_issue1 = FactoryGirl.create(:issue, :user_id => @u.id)
+        end
+        
+        it "should raise CanCan::Unauthorized" do
+          expect { delete :destroy, {:id => @my_issue1.id } }.to raise_error(CanCan::Unauthorized)
+        end
+      end
+    end#not logged in
+
+    
     it_should_behave_like "logged_in" do
+      before:all do
+        Comment.all.destroy!
+        Issue.all.destroy!
+        @my_issue = FactoryGirl.create(:issue, :user_id => @u.id)
+        @other_issue = FactoryGirl.create(:issue, :user_id => @o.id)
+      end
+
       describe "index" do
         before(:each) { get :index }
         
