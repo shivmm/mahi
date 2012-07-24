@@ -38,7 +38,7 @@ class IssuesController < ApplicationController
   def edit
     @issue = Issue.get(params[:id])
   end
-
+  
   # POST /issues
   # POST /issues.json
   def create

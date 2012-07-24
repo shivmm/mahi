@@ -2,6 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    can :sign_in, :sessions
     if user
       if user.admin?
         can :access, :all
@@ -11,7 +12,6 @@ class Ability
         end
     else
       can :read, :issues
-    
     end
      
 
