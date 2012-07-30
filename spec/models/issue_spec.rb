@@ -5,7 +5,9 @@ describe Issue do
   it { should have_property(:title).of_type(DataMapper::Property::String)}
   it { should have_property(:issue_content).of_type(DataMapper::Property::Text)}
   it { should have_property(:created_at).of_type(DataMapper::Property::DateTime)}
- 
+
+  it { should have_many(:comments) }
+
   it { should belong_to(:user)}
   
 

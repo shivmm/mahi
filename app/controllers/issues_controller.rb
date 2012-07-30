@@ -6,7 +6,7 @@ class IssuesController < ApplicationController
   # GET /issues
   # GET /issues.json
   def index
-    @issues = Issue.all
+    @issues = Issue.all(:order => [:comment_count.desc, :id.desc])
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @issues }
@@ -42,6 +42,7 @@ class IssuesController < ApplicationController
   # POST /issues
   # POST /issues.json
   def create
+    params[:issue][:user_id] = current_user.id
     @issue = Issue.new(params[:issue])
     respond_to do |format|
       if @issue.save
@@ -57,7 +58,6 @@ class IssuesController < ApplicationController
   # PUT /issues/1
     # PUT /issues/1.json
   def update
-   
     @issue = Issue.get(params[:id])
     respond_to do |format|
       if @issue.update(params[:issue])

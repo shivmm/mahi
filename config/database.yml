@@ -16,10 +16,13 @@ development:
   #   repo2:
   #     ...
 
-test:
+test: &test
   adapter: postgres
   database: mahi_test
   username: shivam
   password: shivam
 production:
   database: db/mahi_production.db
+
+cucumber:
+  <<: *test

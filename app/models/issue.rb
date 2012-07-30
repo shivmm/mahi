@@ -11,8 +11,17 @@ class Issue
   property :issue_content,  Text, :required => true
   property :created_at,     DateTime
 
+  property :comment_count, Integer, :default => 0
+
   # Association defined for comments
-  has n, :comment
+  has n, :comments
 
   belongs_to :user
+
+  # Public: Updates the comment count
+  def update_comment_count
+    self.comment_count = self.comments.count
+    self.save!
+  end
+
 end

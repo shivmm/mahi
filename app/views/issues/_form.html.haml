@@ -5,6 +5,13 @@
       %ul
         - @issue.errors.full_messages.each do |msg|
           %li= msg
+  %label title
+  = f.text_field :title
+  %label Content
+  = f.text_area :issue_content
 
   .actions
-    = f.submit 'Save'
+    - if params[:action] == "new"
+      = f.submit 'Create Issue'
+    -  else
+      = f.submit 'Update Issue'

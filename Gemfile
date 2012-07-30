@@ -73,6 +73,14 @@ group :test, :development do
   gem 'turn', '~> 0.9.4', :require => false
   gem 'debugger'
   gem 'factory_girl'
+
+end
+
+group :test do
+  gem 'cucumber-rails', :require => false
+  gem 'database_cleaner'
+  gem 'capybara'
+  gem 'capybara-webkit'
 end
 
 

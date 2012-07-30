@@ -1,16 +1,21 @@
 %h1 Listing issues
 
-%table
-  %tr
-    %th
-    %th
-    %th
-
-  - @issues.each do |issue|
+%table#issues_index
+  %thead
     %tr
-      %td= link_to 'Show', issue
-      %td= link_to 'Edit', edit_issue_path(issue)
-      %td= link_to 'Destroy', issue, :confirm => 'Are you sure?', :method => :delete
+      %th Title
+      %th Actions
+  %tbody
+    - @issues.each do |issue|
+      %tr
+        %td
+          = issue.title
+        %td
+          = link_to 'Show', issue
+          |
+          = link_to 'Edit', edit_issue_path(issue)
+          |
+          = link_to 'Destroy', issue, :data => {:confirm => 'Are you sure?'}, :method => :delete
 
 %br
 
