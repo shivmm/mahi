@@ -6,6 +6,10 @@ describe User do
   it { should have_property(:role) }
   it { should validate_inclusion_of(:role).within([:user, :admin])}
   
+  it { should have_many(:issues)}
+  it { should have_many(:comments)}
+  
+  
   describe "admin" do
     it "should recognise admin properly" do
       User.new.admin?.should == false

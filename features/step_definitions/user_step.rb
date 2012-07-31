@@ -1,6 +1,13 @@
 Given /^a user with email "(.*?)" and password "(.*?)"$/ do |email, password|
-  FactoryGirl.create(:user, :email => email, :password => password, :password_confirmation => password)
+  @user = FactoryGirl.create(:user, :email => email, :password => password, :password_confirmation => password)
 end
+
+
+
+Given /^a admin with email "(.*?)" and password "(.*?)"$/ do |email, password|
+  @admin = FactoryGirl.create(:user, :email => email, :password => password, :password_confirmation => password, :role => "admin")
+end
+
 
 
 Given /^I am not logged in$/ do

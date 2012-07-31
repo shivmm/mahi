@@ -1,3 +1,4 @@
+
 require 'spec_helper'
 
 describe IssuesController do
@@ -152,6 +153,7 @@ describe IssuesController do
           
           it("responds to issue ") { response.should redirect_to (@my_issue) }
           it("assigns @issue") { assigns(:issue).should == @my_issue }
+          it("should receive proper message") { Issue.any_instance.should_receive(:save);put :update, {:id => @my_issue.id, :issue => @valid_issue_params} }
         end #my issue
         
         describe "other issue" do

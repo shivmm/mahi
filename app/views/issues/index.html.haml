@@ -12,10 +12,12 @@
           = issue.title
         %td
           = link_to 'Show', issue
-          |
-          = link_to 'Edit', edit_issue_path(issue)
-          |
-          = link_to 'Destroy', issue, :data => {:confirm => 'Are you sure?'}, :method => :delete
+          - if can?(:update, issue)
+            |
+            = link_to 'Edit', edit_issue_path(issue), :class => "edit"
+          - if can?(:destroy, issue)
+            |
+            = link_to 'Destroy', issue, :data => {:confirm => 'Are you sure?'}, :method => :delete, :class => "delete"
 
 %br
 

@@ -13,7 +13,6 @@ gem 'tzinfo',         '~> 0.3.32'
 gem 'dm-rails',               '~> 1.2.1'
 gem 'therubyracer'
 gem 'dm-devise'
-gem 'cancan', :git => 'https://github.com/ryanb/cancan.git', :branch => '2.0'
 # You can use any of the other available database adapters.
 # This is only a small excerpt of the list of all available adapters
 # Have a look at
@@ -37,6 +36,9 @@ gem 'dm-transactions', DM_VERSION
 gem 'dm-aggregates',   DM_VERSION
 gem 'dm-timestamps',   DM_VERSION
 gem 'dm-observer',     DM_VERSION
+
+
+gem 'cancan', :git => 'https://github.com/ryanb/cancan.git', :branch => '2.0'
 
 
 # Gems used only for assets and not required

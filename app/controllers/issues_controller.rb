@@ -1,4 +1,3 @@
-
 class IssuesController < ApplicationController
   
   load_and_authorize_resource
@@ -56,11 +55,10 @@ class IssuesController < ApplicationController
   end
   
   # PUT /issues/1
-    # PUT /issues/1.json
+  # PUT /issues/1.json
   def update
-    @issue = Issue.get(params[:id])
     respond_to do |format|
-      if @issue.update(params[:issue])
+      if @issue.save
         format.html { redirect_to @issue, notice: 'Issue was successfully updated.' }
         format.json { head :no_content }
       else
@@ -76,7 +74,7 @@ class IssuesController < ApplicationController
     @issue = Issue.get(params[:id])
     @issue.destroy
     respond_to do |format|
-      format.html { redirect_to issues_url }
+      format.html { redirect_to issues_url, notice: 'Issue was successfully deleted' }
       format.json { head :no_content }
     end
   end
