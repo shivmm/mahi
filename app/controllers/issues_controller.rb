@@ -15,8 +15,9 @@ class IssuesController < ApplicationController
   # GET /issues/1
   # GET /issues/1.json
   def show
+#    debugger
     @issue = Issue.get(params[:id])
-
+    @comment = Comment.new
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @issue }

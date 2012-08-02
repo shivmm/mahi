@@ -64,3 +64,21 @@ When /^I try to destroy an issue for "(.*?)"$/ do |email|
   issue = Issue.first(:user_id => user1.id)
   delete issue_path(issue)
 end
+
+
+
+When /^I view an issue for "(.*?)"$/ do |email|
+#  debugger
+  user2 = User.first(:email => email)
+  issue2 = user2.issues.first
+  visit issue_path(issue2)
+end
+
+
+When /^I Create a comment on an issue for user "(.*?)"$/ do |email|
+  user =  User.first(:email => email)
+  my_comment =  FactoryGirl.create(:comment, :user_id => user.id, :issue_id => user.issues.first.id )
+end
+
+
+

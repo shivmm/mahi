@@ -1,4 +1,5 @@
 Given /^some data$/ do
+ 
   steps %{
     Given an empty database
     And a user with email "abc@def.com" and password "foobar"
@@ -7,4 +8,5 @@ Given /^some data$/ do
     And an issue for user "abc@def.com"
     And an issue for user "other@mahi.com"
   }
+ 
 end

@@ -5,6 +5,11 @@
       %ul
         - @comment.errors.full_messages.each do |msg|
           %li= msg
+  %label body_comments
+  = f.text_field :body_comments
+  %label location
+  = f.text_area :location
+
 
   .actions
-    = f.submit 'Save'
+    = f.submit 'Save', :class => "save"

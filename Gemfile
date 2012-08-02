@@ -75,7 +75,7 @@ group :test, :development do
   gem 'turn', '~> 0.9.4', :require => false
   gem 'debugger'
   gem 'factory_girl'
-
+  gem 'awesome_print'
 end
 
 group :test do

@@ -2,6 +2,11 @@ require 'spec_helper'
 
 
 describe CommentsController do
+  before :all do
+    @my = FactoryGirl.create(:user)
+    @other = FactoryGirl.create(:user)
+  end 
+  
   it_should_behave_like "make_users" do
     
     context "not logged in" do
@@ -9,63 +14,75 @@ describe CommentsController do
         Comment.all.destroy!
         Issue.all.destroy!
         @my_issue = FactoryGirl.create(:issue, :user_id => @u.id)
+        @my_comment = FactoryGirl.create(:comment, :issue => @my_issue)
         @c = FactoryGirl.create(:comment, :user_id  => @u.id ) 
         @other_comment = FactoryGirl.create(:comment, :user_id => @o.id)
       end
       
-      describe "index" do 
-        
-        it "should raise CanCan::Unauthorized" do
-          expect { get :index}.to raise_error(CanCan::Unauthorized)
+     describe "index" do
+        before(:each) { get :index }
+
+       it "should redirect to root url" do
+          response.should redirect_to(root_url)
         end
-      end #index 
+      end
+
       
-      describe "show" do
-        it "should raise CanCan::Unauthorized" do
-          expect { get :index}.to raise_error(CanCan::Unauthorized)
-        end 
+      describe "show" do 
+        before(:each) { get :show, {:id => @my_comment.id} }
+        
+
+        it "should redirect to comment issue" do
+          response.should redirect_to(issue_path(@my_comment.issue)) 
+        end
+
       end#show
+        
       
       describe "new" do
-        it "should raise CanCan::Unauthorized" do
-          expect { get :new}.to raise_error(CanCan::Unauthorized)                                                         
-        end         
+        before(:each) {get:new}
+        
+	it "should redirect to sign in page" do
+          response.should redirect_to(new_user_session_path)
+	end
       end#new
       
       describe "edit" do
-        it "should raise CanCan::Unauthorized" do 
-          expect { get :edit, {:id => @c.id} }.to raise_error(CanCan::Unauthorized)                                                                         
-        end                    
+        before(:each) {get :edit, {:id =>@c.id}}
+        
+	it "should redirect to sign in page" do
+          response.should redirect_to(new_user_session_path)
+	end
       end#edit
       
       describe "create" do
-        before :all do                                                                                                                                      
+        before (:each) do                                                                                                                                       
           @valid_attributes = {:body_comments => "body", :location => "Mumbai", :user_id => @u.id, :issue_id => @my_issue.id}   
+          post :create, {:comment=> @valid_attributes}
         end
-        it "should raise CanCan::Unauthorized" do                                                                                                          
-          expect { post :create, {:comment=> @valid_attributes} }.to raise_error(CanCan::Unauthorized)                                                  
-        end  
       end#create
+
       
       describe "update" do
         before :each do                                                                                                                                     
-          @cc = FactoryGirl.create(:comment, :user_id  => @u.id )                                                                                           
+          @cc = FactoryGirl.create(:comment, :user_id  => @u.id )
+          put :update, {:id => @c.id, :comment => @cc} 
         end                                                                                                                                                
-        it "should raise CanCan::Unauthorized" do                                                                                                       
-          expect { put :update, {:id => @c.id, :comment => @cc} }.to raise_error(CanCan::Unauthorized)                                                     
+        it "should redirect to sign in page" do
+          response.should redirect_to(new_user_session_path)                                       
         end    
       end#update
       
       describe "destroy" do
         before :each do                                                                                                                                     
           @c1 = FactoryGirl.create(:comment, :user_id  => @u.id )                                                                                           
-        end                                                                                                                                                 
+          delete :destroy, {:id => @c1.id }      
+        end       
         
-        it "should raise CanCan::Unauthorized" do                                                                                                           
-          expect { delete :destroy, {:id => @c1.id } }.to raise_error(CanCan::Unauthorized)                                                                 
-        end  
+        it "should redirect to sign in page" do
+          response.should redirect_to(new_user_session_path)
+        end
       end#destroy
-      
     end#not logged in
     
     it_should_behave_like "logged_in" do
@@ -73,6 +90,7 @@ describe CommentsController do
         Comment.all.destroy!
         Issue.all.destroy!
         @my_issue = FactoryGirl.create(:issue, :user_id => @u.id)
+        @my_comment = FactoryGirl.create(:comment, :issue => @my_issue)
         @c = FactoryGirl.create(:comment, :user_id  => @u.id ) 
         @other_comment = FactoryGirl.create(:comment, :user_id => @o.id)
       end
@@ -81,16 +99,20 @@ describe CommentsController do
       describe "index" do
         before(:each) { get :index }
         
-        it("responds ok") { response.should be_ok }
-        it("assigns @comments") { assigns(:comments).should == [@c, @other_comment] }
+        it "should redirect to root url" do
+          response.should redirect_to(root_url)
+        end
       end #index
       
       describe "show" do
-        before(:each) { get :show, {:id => @c.id} }
+        before(:each) { get :show, {:id => @my_comment.id} }
         
-        it("responds ok") { response.should be_ok }
-        it("assigns @comment") { assigns(:comment).should == @c }
-      end #show
+        
+        it "should redirect to comment issue" do
+          response.should redirect_to(issue_path(@my_comment.issue))
+        end       
+      end#show     
+      
       
       describe "new" do
         before(:each) { get :new }
@@ -108,9 +130,16 @@ describe CommentsController do
         end # own comment
         
         describe "other comment" do
-          it "should raise CanCan::Unauthorized" do
-            expect { get :edit, {:id => @other_comment.id} }.to raise_error(CanCan::Unauthorized)
+        before(:each) do
+            @request.env['HTTP_REFERER'] = comment_path(@other_comment)
+            get :edit, {:id => @other_comment.id} 
           end
+          
+          it "should redirect to the comment" do
+            response.should redirect_to(comment_path(@other_comment))
+            flash[:error].should match(/not authorized/)
+          end  
+          
         end #other comment
       end#edit
       
@@ -123,7 +152,7 @@ describe CommentsController do
         
         it("assigns @comment") { assigns(:comment).should be_a Comment }
         it("adds an comment") { expect {post :create, {:comment => @valid_attributes} }.to change(Comment, :count).by(1)}
-        it("redirects to new comment") { response.should redirect_to(comment_path(assigns(:comment))) }
+        it("redirects to issue") { response.should redirect_to(issue_path(assigns(:comment).issue)) }
       end #create
       
       
@@ -141,12 +170,20 @@ describe CommentsController do
         end#own comments
         
         describe "other comment" do
-          it "should raise CanCan::Unauthorized" do
-            expect { put :update, {:id => @other_comment.id} }.to raise_error(CanCan::Unauthorized)
+          before(:each) do
+            @request.env['HTTP_REFERER'] = comment_path(@other_comment)
+            @valid_attributes = {:body_comments => "body", :location => "Mumbai", :user_id => @u.id, :issue_id => @my_issue.id}                                  
+            put :update, {:id => @other_comment.id, :issue => @valid_attributes }
           end
+          
+          it "should redirect to the comment" do
+            response.should redirect_to(comment_path(@other_comment))
+            flash[:error].should match(/not authorized/)
+          end
+          
         end # other comment
       end#update
-
+      
       describe "destroy" do
         describe "my comment" do
           
@@ -166,9 +203,16 @@ describe CommentsController do
         end # describe my comment
         
         
+       
         describe "other comment" do
-          it "should raise CanCan::Unauthorized" do
-            expect { delete :destroy, {:id => @other_comment.id} }.to raise_error(CanCan::Unauthorized)
+          before(:each) do
+            @request.env['HTTP_REFERER'] = comment_path(@other_comment)
+            delete :destroy, {:id => @other_comment.id } 
+          end
+          
+          it "should redirect to the comment" do
+            response.should redirect_to (comment_path(@other_comment))
+            flash[:error].should match(/not authorized/)
           end
         end # other comment
       end # describe destroy 
@@ -182,26 +226,29 @@ describe CommentsController do
         @my_issue = FactoryGirl.create(:issue, :user_id => @u.id)
         @com = FactoryGirl.create(:comment, :user_id  => @u.id )
         @other_com = FactoryGirl.create(:comment, :user_id => @o.id)
+        @my_comment = FactoryGirl.create(:comment, :issue => @my_issue)
       end
-      
       
       describe "index" do
         before :each do
           get :index
         end
         
-        it("responds ok") { response.should be_ok }
-        it("assigns @comments") { assigns(:comments).should == [@com, @other_com] }
-      end #index  
+        it "should redirect to root url" do
+          response.should redirect_to(root_url)
+        end
+      end#index   
       
-
+      
       describe "show" do
-        before(:each) { get :show, {:id => @other_com.id} }
+        before(:each) { get :show, {:id => @my_comment.id} }
         
-        it("responds ok") { response.should be_ok }
-        it("assigns @comment") { assigns(:comment).should == @other_com }
-      end #show 
-
+        it "should redirect to comment issue" do
+          response.should redirect_to(issue_path(@my_comment.issue))
+        end
+      end#show                
+      
+      
       describe "new" do
         before(:each) { get :new }
         
@@ -223,7 +270,8 @@ describe CommentsController do
         
         it("assigns @comment") { assigns(:comment).should be_a Comment }
         it("adds an comment") { expect {post :create, {:comment => @valid_attributes1} }.to change(Comment, :count).by(1)}
-        it("redirects to new comment") { response.should redirect_to(comment_path(assigns(:comment))) }
+        it("redirects to issue") { response.should redirect_to(issue_path(assigns(:comment).issue)) }
+        
       end #create   
       
       describe "update" do

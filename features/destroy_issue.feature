@@ -10,10 +10,10 @@ Feature: destroy issue
 
   Scenario: not logged in 
     Given I am not logged in
-    When I should see "Destroy"
-    And I click on "Destroy"
-    Then I should see "sorry you are not authorised to do this operation without login"
-    And I should see "Sign in"
+    When I visit the home page
+    Then I should not see "Destroy"
+    And I should see "Show"
+    
     
 
 

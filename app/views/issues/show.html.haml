@@ -1,6 +1,69 @@
 %h1
-  = @issue.title
+  Issue Title
+= @issue.title
+%br
+%h1
+  Issue Content
+= @issue.issue_content
+%br
+%h1
+  Created Date
+= @issue.created_at
+%br
+%br
+%br
 
-= link_to 'Edit', edit_issue_path(@issue)
+Total Comments on this post(
+= @issue.comment_count
+)
+%br
+%br
+%h1
+  Comments
+%br
+%br
+%h2
+  Add your Comment
+- if user_signed_in?
+  = form_for [@issue, @comment], :url => comments_path do |f|
+    %label body_comments
+    %br
+    = f.text_area :body_comments, :rows =>3, :cols =>30
+    %br
+    %label location
+    %br
+    = f.text_field :location
+    = f.hidden_field(:user_id, :value => current_user.id)
+    = f.hidden_field(:issue_id, :value => @issue.id)
+    %br
+    %br
+    .actions
+      = f.submit 'Add Comment'
+- else
+  Please Log in to submit comment
+
+
+%table
+  %tbody
+    - @issue.comments.each do |com|
+      %tr
+        %td
+          Content :
+          = com.body_comments
+        %td
+          Location :
+          = com.location
+        %td
+
+          - if can?(:update, com)
+            |
+            = link_to 'Edit Comment', edit_comment_path(com), :class => "edit"
+          - if can?(:destroy, com)
+            |
+            = link_to 'Destroy', com, :data => {:confirm => 'Are you sure?'}, :method => :delete, :class => "delete"
+
+
+- if can?(:update, @issue) 
+  = link_to 'Edit', edit_issue_path(@issue)
 \|
 = link_to 'Back', issues_path

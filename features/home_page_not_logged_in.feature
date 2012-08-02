@@ -16,7 +16,6 @@ Feature: home page
     And I should not see "Destroy"
     But I should see "Show"
 	 
-@selenium
 
   Scenario: logged in for destroy own issue 
     Given some data
