@@ -19,25 +19,25 @@ describe CommentsController do
         @other_comment = FactoryGirl.create(:comment, :user_id => @o.id)
       end
       
-     describe "index" do
+      describe "index" do
         before(:each) { get :index }
-
-       it "should redirect to root url" do
+        
+        it "should redirect to root url" do
           response.should redirect_to(root_url)
         end
       end
-
+      
       
       describe "show" do 
         before(:each) { get :show, {:id => @my_comment.id} }
         
-
+        
         it "should redirect to comment issue" do
           response.should redirect_to(issue_path(@my_comment.issue)) 
         end
-
-      end#show
         
+      end#show
+      
       
       describe "new" do
         before(:each) {get:new}
@@ -61,7 +61,7 @@ describe CommentsController do
           post :create, {:comment=> @valid_attributes}
         end
       end#create
-
+      
       
       describe "update" do
         before :each do                                                                                                                                     
@@ -130,7 +130,7 @@ describe CommentsController do
         end # own comment
         
         describe "other comment" do
-        before(:each) do
+          before(:each) do
             @request.env['HTTP_REFERER'] = comment_path(@other_comment)
             get :edit, {:id => @other_comment.id} 
           end
@@ -165,8 +165,7 @@ describe CommentsController do
           before(:each){ put :update, {:id => @cc.id, :comment => {:body_comments => "def"}} }
           
           
-          it("responds to comment ") { response.should redirect_to (@cc) }
-          it("assigns @comment") { assigns(:comment).should == @cc }        
+          it("responds to comment ") { response.should redirect_to (@cc.issue) }
         end#own comments
         
         describe "other comment" do
@@ -196,14 +195,13 @@ describe CommentsController do
             assigns(:comment).id.should == @c1.id
           end
           it("destroy an comment") { expect {delete :destroy, {:id => @c1.id}}.to change(Comment, :count).by(-1)}
-          it("redirects to comment") {
-            delete :destroy, {:id => @c1.id }
-            response.should redirect_to(comments_url)
+          it("redirects to comment") {    delete :destroy, {:id => @c1.id }
+            response.should redirect_to(@c1.issue)
           }
         end # describe my comment
         
         
-       
+        
         describe "other comment" do
           before(:each) do
             @request.env['HTTP_REFERER'] = comment_path(@other_comment)
@@ -281,8 +279,8 @@ describe CommentsController do
         before(:each){ put :update, {:id => @cc.id, :comment => {:body_comments => "def"}} }
         
         
-        it("responds to comment ") { response.should redirect_to (@cc) }
-        it("assigns @comment") { assigns(:comment).should == @cc }
+        it("it should redirect to issue") { response.should redirect_to (@cc.issue) }
+    
       end # update
       
       describe "destroy" do
@@ -297,7 +295,7 @@ describe CommentsController do
         it("destroy an comment") { expect {delete :destroy, {:id => @other_com1.id}}.to change(Comment, :count).by(-1)}
         it("redirects to comment") {
           delete :destroy, {:id => @other_com1.id }
-          response.should redirect_to(comments_url)
+          response.should redirect_to(@other_com1.issue)
         }  
       end#destroy    
     end#adminrole  

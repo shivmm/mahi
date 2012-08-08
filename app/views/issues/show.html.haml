@@ -1,36 +1,55 @@
-%h1
-  Issue Title
-= @issue.title
 %br
 %h1
-  Issue Content
+  %u
+    = @issue.title
+- if can?(:update, @issue) 
+  (
+  = link_to 'Edit', edit_issue_path(@issue)
+  )
+%br
+
+%h2
 = @issue.issue_content
 %br
-%h1
-  Created Date
+%br
+
+Posted by:
+= @issue.user.email 
+%br
+Date:  
 = @issue.created_at
 %br
 %br
 %br
 
-Total Comments on this post(
+Total comments on this post(
 = @issue.comment_count
 )
 %br
-%br
-%h1
+%h3
   Comments
+- @issue.comments.each do |com|
+  %hr  
+  = com.body_comments
+  - if can?(:update, com)
+    = link_to 'Edit Comment', edit_comment_path(com), :class => "edit"
+  - if can?(:destroy, com)
+    = link_to 'Destroy Comment', com, :data => {:confirm => 'Are you sure?'}, :method => :delete, :class => "delete_comment"
+  %br    
+  Location :
+  = com.location
+  %br  
+
 %br
-%br
-%h2
+%h3
   Add your Comment
 - if user_signed_in?
   = form_for [@issue, @comment], :url => comments_path do |f|
-    %label body_comments
+    %label Comment
     %br
     = f.text_area :body_comments, :rows =>3, :cols =>30
     %br
-    %label location
+    %label Location
     %br
     = f.text_field :location
     = f.hidden_field(:user_id, :value => current_user.id)
@@ -38,32 +57,9 @@ Total Comments on this post(
     %br
     %br
     .actions
-      = f.submit 'Add Comment'
+      = f.submit 'Add Comment', :class => "add_comment"
 - else
   Please Log in to submit comment
 
-
-%table
-  %tbody
-    - @issue.comments.each do |com|
-      %tr
-        %td
-          Content :
-          = com.body_comments
-        %td
-          Location :
-          = com.location
-        %td
-
-          - if can?(:update, com)
-            |
-            = link_to 'Edit Comment', edit_comment_path(com), :class => "edit"
-          - if can?(:destroy, com)
-            |
-            = link_to 'Destroy', com, :data => {:confirm => 'Are you sure?'}, :method => :delete, :class => "delete"
-
-
-- if can?(:update, @issue) 
-  = link_to 'Edit', edit_issue_path(@issue)
-\|
-= link_to 'Back', issues_path
+%br
+= link_to 'Back To Issue Page', issues_path

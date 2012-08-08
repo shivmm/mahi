@@ -58,10 +58,10 @@ class CommentsController < ApplicationController
   # PUT /comments/1
   # PUT /comments/1.json
   def update
-#    @comment = Comment.get(params[:id])
+    #    @comment = Comment.get(params[:id])
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to @comment, notice: 'Comment was successfully updated.' }
+        format.html { redirect_to @comment.issue, notice: 'Comment was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -76,7 +76,7 @@ class CommentsController < ApplicationController
     @comment = Comment.get(params[:id])
     @comment.destroy
     respond_to do |format|
-      format.html { redirect_to comments_url }
+      format.html { redirect_to @comment.issue, notice: 'Comment was successfully deleted.' }
       format.json { head :no_content }
     end
   end

@@ -50,7 +50,7 @@ class User
   property :role, Enum[:admin, :user], :default => :user
 
   has n, :issues
-  has n, :comment
+  has n, :comments
 
   def admin?
     role == :admin

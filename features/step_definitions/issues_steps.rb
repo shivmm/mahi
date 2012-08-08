@@ -75,10 +75,6 @@ When /^I view an issue for "(.*?)"$/ do |email|
 end
 
 
-When /^I Create a comment on an issue for user "(.*?)"$/ do |email|
-  user =  User.first(:email => email)
-  my_comment =  FactoryGirl.create(:comment, :user_id => user.id, :issue_id => user.issues.first.id )
-end
 
 
 

@@ -5,6 +5,7 @@ class IssuesController < ApplicationController
   # GET /issues
   # GET /issues.json
   def index
+    #debugger
     @issues = Issue.all(:order => [:comment_count.desc, :id.desc])
     respond_to do |format|
       format.html # index.html.erb

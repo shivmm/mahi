@@ -1,0 +1,403 @@
+;; -*- mode: emacs-lisp; coding: emacs-mule; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Fri Aug  3 18:19:33 2012
+;; Desktop file format version 206
+;; Emacs version 23.1.1
+
+;; Global section:
+(setq file-name-history '("~/src/mahi/features/" "/home/uadmin/src/mahi/app/views/issues/show.html.haml" "/home/uadmin/src/mahi/app/views/issues/_form.html.haml" "/home/uadmin/src/mahi/app/views/layouts/application.html.haml" "/home/uadmin/src/mahi/app/assets/stylesheets/application.css" "/home/uadmin/src/mahi/config/application.rb" "/home/uadmin/src/mahi/config/environment.rb" "/home/uadmin/src/mahi/app/views/issues/edit.html.haml" "/home/uadmin/src/mahi/app/views/comments/edit.html.haml" "/home/uadmin/src/mahi/app/views/comments/show.html.haml" "/home/uadmin/src/mahi/app/views/comments/index.html.haml" "/home/uadmin/src/mahi/app/views/comments/edit.html.haml" "/home/uadmin/src/mahi/app/views/issues/index.html.haml" "/home/uadmin/src/mahi/app/views/layouts/application.html.haml" "/home/uadmin/src/mahi/app/views/comments/_form.html.haml" "/home/uadmin/src/mahi/app/views/comments/edit.html.haml" "/home/uadmin/src/mahi/app/views/issues/show.html.haml" "/home/uadmin/src/mahi/app/models/user.rb" "/home/uadmin/src/mahi/spec/models/user_spec.rb" "/home/uadmin/src/mahi/app/controllers/issues_controller.rb" "/home/uadmin/src/mahi/spec/controllers/issues_controller_spec2.rb" "/home/uadmin/src/mahi/features/edit_comment.feature" "/home/uadmin/src/mahi/features/step_definitions/data_steps.rb" "/home/uadmin/src/mahi/app/views/issues/index.html.haml" "/home/uadmin/src/mahi/features/step_definitions/capybara.rb" "/home/uadmin/src/mahi/features/step_definitions/comment_steps.rb" "/home/uadmin/src/mahi/features/step_definitions/issues_steps.rb" "/home/uadmin/src/mahi/features/step_definitions/comment_steps.rb" "/home/uadmin/src/mahi/features/destroy_issue.feature" "/home/uadmin/src/mahi/features/edit_issue.feature" "/home/uadmin/src/mahi/features/add_comment.feature" "/home/uadmin/src/mahi/features/step_definitions/data_steps.rb" "/home/uadmin/src/mahi/app/views/issues/show.html.haml" "/home/uadmin/src/mahi/features/step_definitions/issues_steps.rb" "/home/uadmin/src/mahi/features/home_page_not_logged_in.feature" "~/src/mahi/features/" "/home/uadmin/src/mahi/features/step_definitions/issues_steps.rb" "~/src/mahi/features/step_definitions/comment_steps.rb" "/home/uadmin/src/mahi/features/step_definitions/data_steps.rb" "/home/uadmin/src/mahi/features/step_definitions/issues_steps.rb" "/home/uadmin/src/mahi/features/step_definitions/data_steps.rb" "/home/uadmin/src/mahi/features/step_definitions/user_step.rb" "/home/uadmin/src/mahi/spec/controllers/comments_controller_spec.rb" "/home/uadmin/src/mahi/app/controllers/comments_controller.rb" "/home/uadmin/src/mahi/app/views/issues/show.html.haml" "/home/uadmin/src/mahi/features/home_page_not_logged_in.feature" "/home/uadmin/src/mahi/features/destroy_issue.feature" "/home/uadmin/src/mahi/features/destroy_comment.feature" "/home/uadmin/src/mahi/app/controllers/comments_controller.rb" "/home/uadmin/src/mahi/app/views/issues/show.html.haml" "/home/uadmin/src/mahi/app/controllers/comments_controller.rb" "/home/uadmin/src/mahi/features/view_issue.feature" "/home/uadmin/src/mahi/features/edit_comment.feature" "/home/uadmin/src/mahi/features/edit_issue.feature" "/home/uadmin/src/mahi/features/edit_comment.feature" "/home/uadmin/src/mahi/spec/controllers/issues_controller_spec2.rb" "/home/uadmin/src/mahi/spec/controllers/comments_controller_spec.rb"))
+(setq desktop-missing-file-warning nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+(setq search-ring nil)
+(setq regexp-search-ring nil)
+(setq register-alist nil)
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/features/edit_issue.feature"
+  "edit_issue.feature"
+  'feature-mode
+  '(orgtbl-mode)
+  1044
+  '(975 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/app/views/issues/show.html.haml"
+  "show.html.haml"
+  'haml-mode
+  nil
+  4
+  '(834 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/app/views/issues/_form.html.haml"
+  "_form.html.haml<2>"
+  'haml-mode
+  nil
+  336
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/app/assets/stylesheets/application.css"
+  "application.css"
+  'css-mode
+  nil
+  555
+  '(526 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/app/views/layouts/application.html.haml"
+  "application.html.haml"
+  'haml-mode
+  nil
+  166
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/config/application.rb"
+  "application.rb"
+  'ruby-mode
+  nil
+  2884
+  '(1 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/config/environment.rb"
+  "environment.rb"
+  'ruby-mode
+  nil
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "layouts"
+  'dired-mode
+  nil
+  251
+  '(nil nil)
+  t
+  '("/home/uadmin/src/mahi/app/views/layouts/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "views"
+  'dired-mode
+  nil
+  361
+  '(nil nil)
+  t
+  '("/home/uadmin/src/mahi/app/views/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "comments"
+  'dired-mode
+  nil
+  198
+  '(nil nil)
+  t
+  '("/home/uadmin/src/mahi/app/views/comments/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "issues"
+  'dired-mode
+  nil
+  196
+  '(nil nil)
+  t
+  '("/home/uadmin/src/mahi/app/views/issues/")
+  nil)
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/app/views/issues/edit.html.haml"
+  "edit.html.haml<2>"
+  'haml-mode
+  nil
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/app/views/comments/edit.html.haml"
+  "edit.html.haml"
+  'haml-mode
+  nil
+  38
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/app/views/comments/show.html.haml"
+  "show.html.haml<2>"
+  'haml-mode
+  nil
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/app/views/comments/index.html.haml"
+  "index.html.haml<2>"
+  'haml-mode
+  nil
+  1
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/app/views/issues/index.html.haml"
+  "index.html.haml"
+  'haml-mode
+  nil
+  344
+  '(1 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/app/views/comments/_form.html.haml"
+  "_form.html.haml"
+  'haml-mode
+  nil
+  357
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/app/models/user.rb"
+  "user.rb"
+  'ruby-mode
+  nil
+  1092
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/spec/models/user_spec.rb"
+  "user_spec.rb"
+  'ruby-mode
+  nil
+  278
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/spec/controllers/issues_controller_spec2.rb"
+  "issues_controller_spec2.rb"
+  'ruby-mode
+  nil
+  7643
+  '(2925 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/app/controllers/issues_controller.rb"
+  "issues_controller.rb"
+  'ruby-mode
+  nil
+  136
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/features/destroy_issue.feature"
+  "destroy_issue.feature"
+  'feature-mode
+  '(orgtbl-mode)
+  953
+  '(147 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/features/edit_comment.feature"
+  "edit_comment.feature"
+  'feature-mode
+  '(orgtbl-mode)
+  1681
+  '(293 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/features/view_issue.feature"
+  "view_issue.feature"
+  'feature-mode
+  '(orgtbl-mode)
+  1226
+  '(896 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/features/step_definitions/data_steps.rb"
+  "data_steps.rb"
+  'ruby-mode
+  nil
+  302
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/features/step_definitions/capybara.rb"
+  "capybara.rb"
+  'ruby-mode
+  nil
+  563
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/features/step_definitions/issues_steps.rb"
+  "issues_steps.rb"
+  'ruby-mode
+  nil
+  83
+  '(2094 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/features/destroy_comment.feature"
+  "destroy_comment.feature"
+  'feature-mode
+  '(orgtbl-mode)
+  1090
+  '(377 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . iso-latin-1-unix) (overwrite-mode)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/features/step_definitions/comment_steps.rb"
+  "comment_steps.rb"
+  'ruby-mode
+  nil
+  5
+  '(324 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . iso-latin-1-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/features/add_comment.feature"
+  "add_comment.feature"
+  'feature-mode
+  '(orgtbl-mode)
+  1220
+  '(nil nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/features/step_definitions/user_step.rb"
+  "user_step.rb"
+  'ruby-mode
+  nil
+  412
+  '(1127 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix) (overwrite-mode)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/features/home_page_not_logged_in.feature"
+  "home_page_not_logged_in.feature"
+  'feature-mode
+  '(orgtbl-mode)
+  507
+  '(752 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "features"
+  'dired-mode
+  nil
+  1603
+  '(nil nil)
+  t
+  '("/home/uadmin/src/mahi/features/")
+  nil)
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/app/controllers/comments_controller.rb"
+  "comments_controller.rb"
+  'ruby-mode
+  nil
+  2068
+  '(925 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/uadmin/src/mahi/spec/controllers/comments_controller_spec.rb"
+  "comments_controller_spec.rb"
+  'ruby-mode
+  nil
+  11023
+  '(10432 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix)))
+

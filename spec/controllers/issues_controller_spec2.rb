@@ -21,7 +21,7 @@ describe IssuesController do
         before(:each) { get :index }
         
         it("responds ok") { response.should be_ok }
-        it("assigns @issues") { assigns(:issues).should == [@my_issue, @other_issue] }
+        it("assigns @issues") { assigns(:issues).should == [@other_issue, @my_issue] }
       end 
       
       describe "show" do
@@ -93,7 +93,7 @@ describe IssuesController do
         before(:each) { get :index }
         
         it("responds ok") { response.should be_ok }
-        it("assigns @issues") { assigns(:issues).should == [@my_issue, @other_issue] }
+        it("assigns @issues") { assigns(:issues).should == [@other_issue, @my_issue] }
       end  #index
       
       describe "show" do
@@ -223,7 +223,7 @@ describe IssuesController do
       end
       
       it("responds ok") { response.should be_ok }
-      it("assigns @issues") { assigns(:issues).should == [@my_issue12, @other_issue12] }
+      it("assigns @issues") { assigns(:issues).should == [@other_issue12, @my_issue12] }
       
     end # Index End
 

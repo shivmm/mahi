@@ -5,9 +5,13 @@
       %ul
         - @issue.errors.full_messages.each do |msg|
           %li= msg
-  %label title
+  %label Issue Title
+  %br
   = f.text_field :title
+  %br
+  %br
   %label Content
+  %br
   = f.text_area :issue_content
 
   .actions

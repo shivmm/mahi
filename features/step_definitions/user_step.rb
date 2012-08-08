@@ -24,9 +24,27 @@ Given /^a logged in user$/ do
 end
 
 
+
+Given /^logged in as admin$/ do
+  @u = FactoryGirl.create(:user, :role => "admin")
+  visit new_user_session_path
+  fill_in('user_email', :with => @u.email)
+  fill_in('user_password', :with => "password")
+  click_on 'Sign in'
+end
+
+
+
+
 Given /^I am logged in as "(.*?)" with password "(.*?)"$/ do |email, password|
   visit new_user_session_path
   fill_in('user_email', :with => email) 
   fill_in('user_password', :with => password)
   click_on 'Sign in'
 end
+
+
+
+
+
+
