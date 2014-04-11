@@ -11,7 +11,7 @@ class Comment
   property :created_at, DateTime
   property :body_comments, Text, :required =>true
   property :location, String, :required => true
-
+ property :state, String, :required => true
   belongs_to :issue
   belongs_to :user
 
