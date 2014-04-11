@@ -10,6 +10,8 @@ class Issue
   property :title,          String, :required => true
   property :issue_content,  Text, :required => true
   property :created_at,     DateTime
+  property :created_time,   Time
+
 
   property :comment_count, Integer, :default => 0
 
