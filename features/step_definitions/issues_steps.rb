@@ -24,6 +24,12 @@ Given /^I add (\d+) issues with (\d+) comments and title "(.*?)"$/ do |num_issue
   end
 end
 
+Given /^an issue for user "(.*?)"$/ do |email|
+  u = User.first(:email => email)
+  FactoryGirl.create(:issue, :user => u)
+end
+
+
 Given /^an issue for user "(.*?)" with password "(.*?)"$/ do |email, password|
   @user = FactoryGirl.create(:user, :email => email, :password => password, :password_confirmation => password)
   @my_issue = FactoryGirl.build(:issue, :user => @user)
@@ -32,7 +38,7 @@ end
 
 
 
-Then /^i should see the following issues:$/ do |table|
+Then /^I should see the following issues:$/ do |table|
   # table is a Cucumber::Ast::Table
   page.find('table#issues_index').find('tbody').all('tr').map{|tr| tr.text.split("\n")[1]}.should == table.rows.flatten
 end
@@ -45,3 +51,30 @@ end
 When /^I try to edit that issue$/ do
   visit edit_issue_path(@my_issue)
 end
+
+When /^I try to edit an issue for "(.*?)"$/ do |email|
+  user = User.first(:email => email)
+  issue = user.issues.first
+  visit edit_issue_path(issue)
+end
+
+
+When /^I try to destroy an issue for "(.*?)"$/ do |email|
+  user1 = User.first(:email => email)
+  issue = Issue.first(:user_id => user1.id)
+  delete issue_path(issue)
+end
+
+
+
+When /^I view an issue for "(.*?)"$/ do |email|
+#  debugger
+  user2 = User.first(:email => email)
+  issue2 = user2.issues.first
+  visit issue_path(issue2)
+end
+
+
+
+
+

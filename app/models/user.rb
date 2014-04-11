@@ -49,6 +49,9 @@ class User
   property :id, Serial
   property :role, Enum[:admin, :user], :default => :user
 
+  has n, :issues
+  has n, :comments
+
   def admin?
     role == :admin
   end

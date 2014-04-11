@@ -12,6 +12,7 @@ class Ability
         end
     else
       can :read, :issues
+      can :read, :comments
     end
      
 

@@ -1,4 +1,3 @@
-
 class IssuesController < ApplicationController
   
   load_and_authorize_resource
@@ -6,6 +5,7 @@ class IssuesController < ApplicationController
   # GET /issues
   # GET /issues.json
   def index
+    #debugger
     @issues = Issue.all(:order => [:comment_count.desc, :id.desc])
     respond_to do |format|
       format.html # index.html.erb
@@ -16,8 +16,9 @@ class IssuesController < ApplicationController
   # GET /issues/1
   # GET /issues/1.json
   def show
+#    debugger
     @issue = Issue.get(params[:id])
-
+    @comment = Comment.new
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @issue }
@@ -56,11 +57,10 @@ class IssuesController < ApplicationController
   end
   
   # PUT /issues/1
-    # PUT /issues/1.json
+  # PUT /issues/1.json
   def update
-    @issue = Issue.get(params[:id])
     respond_to do |format|
-      if @issue.update(params[:issue])
+      if @issue.save
         format.html { redirect_to @issue, notice: 'Issue was successfully updated.' }
         format.json { head :no_content }
       else
@@ -76,7 +76,7 @@ class IssuesController < ApplicationController
     @issue = Issue.get(params[:id])
     @issue.destroy
     respond_to do |format|
-      format.html { redirect_to issues_url }
+      format.html { redirect_to issues_url, notice: 'Issue was successfully deleted' }
       format.json { head :no_content }
     end
   end

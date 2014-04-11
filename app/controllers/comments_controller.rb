@@ -5,21 +5,24 @@ class CommentsController < ApplicationController
   # GET /comments
   # GET /comments.json
   def index
-    @comments = Comment.all
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @comments }
-    end
+    redirect_to root_url
+   # @comments = Comment.all
+    #respond_to do |format|
+      #format.html # index.html.erb
+     # format.json { render json: @comments }
+   # end
   end
   
   # GET /comments/1
   # GET /comments/1.json
   def show
+   
     @comment = Comment.get(params[:id])
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @comment }
-    end
+    redirect_to @comment.issue
+   # respond_to do |format|
+    #  format.html # show.html.erb
+     # format.json { render json: @comment }
+   # end
   end
   
   # GET /comments/new
@@ -43,7 +46,7 @@ class CommentsController < ApplicationController
     @comment = Comment.new(params[:comment])
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
+        format.html { redirect_to @comment.issue, notice: 'Comment was successfully created.' }
         format.json { render json: @comment, status: :created, location: @comment }
       else
         format.html { render action: "new" }
@@ -55,10 +58,10 @@ class CommentsController < ApplicationController
   # PUT /comments/1
   # PUT /comments/1.json
   def update
-    @comment = Comment.get(params[:id])
+    #    @comment = Comment.get(params[:id])
     respond_to do |format|
-      if @comment.update(params[:comment])
-        format.html { redirect_to @comment, notice: 'Comment was successfully updated.' }
+      if @comment.save
+        format.html { redirect_to @comment.issue, notice: 'Comment was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -73,7 +76,7 @@ class CommentsController < ApplicationController
     @comment = Comment.get(params[:id])
     @comment.destroy
     respond_to do |format|
-      format.html { redirect_to comments_url }
+      format.html { redirect_to @comment.issue, notice: 'Comment was successfully deleted.' }
       format.json { head :no_content }
     end
   end

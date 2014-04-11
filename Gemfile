@@ -13,7 +13,6 @@ gem 'tzinfo',         '~> 0.3.32'
 gem 'dm-rails',               '~> 1.2.1'
 gem 'therubyracer'
 gem 'dm-devise'
-gem 'cancan', :git => 'https://github.com/ryanb/cancan.git', :branch => '2.0'
 # You can use any of the other available database adapters.
 # This is only a small excerpt of the list of all available adapters
 # Have a look at
@@ -39,12 +38,17 @@ gem 'dm-timestamps',   DM_VERSION
 gem 'dm-observer',     DM_VERSION
 
 
+gem 'cancan', :git => 'https://github.com/ryanb/cancan.git', :branch => '2.0'
+
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
   gem 'sass-rails',   '~> 3.2.5'
   gem 'coffee-rails', '~> 3.2.2'
   gem 'uglifier',     '~> 1.2.4'
+  gem "twitter-bootstrap-rails"
+  gem 'less'
 end
 
 gem 'jquery-rails', '~> 2.0.1'
@@ -73,14 +77,15 @@ group :test, :development do
   gem 'turn', '~> 0.9.4', :require => false
   gem 'debugger'
   gem 'factory_girl'
-
+  gem 'awesome_print'
 end
 
 group :test do
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
   gem 'capybara'
-  gem 'capybara-webkit'
+  #gem 'capybara-webkit'
+ 
 end
 
 

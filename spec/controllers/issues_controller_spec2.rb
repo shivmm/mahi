@@ -1,3 +1,4 @@
+
 require 'spec_helper'
 
 describe IssuesController do
@@ -20,7 +21,7 @@ describe IssuesController do
         before(:each) { get :index }
         
         it("responds ok") { response.should be_ok }
-        it("assigns @issues") { assigns(:issues).should == [@my_issue, @other_issue] }
+        it("assigns @issues") { assigns(:issues).should == [@other_issue, @my_issue] }
       end 
       
       describe "show" do
@@ -92,7 +93,7 @@ describe IssuesController do
         before(:each) { get :index }
         
         it("responds ok") { response.should be_ok }
-        it("assigns @issues") { assigns(:issues).should == [@my_issue, @other_issue] }
+        it("assigns @issues") { assigns(:issues).should == [@other_issue, @my_issue] }
       end  #index
       
       describe "show" do
@@ -152,6 +153,7 @@ describe IssuesController do
           
           it("responds to issue ") { response.should redirect_to (@my_issue) }
           it("assigns @issue") { assigns(:issue).should == @my_issue }
+          it("should receive proper message") { Issue.any_instance.should_receive(:save);put :update, {:id => @my_issue.id, :issue => @valid_issue_params} }
         end #my issue
         
         describe "other issue" do
@@ -221,7 +223,7 @@ describe IssuesController do
       end
       
       it("responds ok") { response.should be_ok }
-      it("assigns @issues") { assigns(:issues).should == [@my_issue12, @other_issue12] }
+      it("assigns @issues") { assigns(:issues).should == [@other_issue12, @my_issue12] }
       
     end # Index End
 
