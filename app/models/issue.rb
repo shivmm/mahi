@@ -13,6 +13,7 @@ class Issue
   property :created_time,   Time
 
 
+
   property :comment_count, Integer, :default => 0
 
   # Association defined for comments
